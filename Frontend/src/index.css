@@ -1,0 +1,50 @@
+/* Import Google Fonts phải đứng đầu */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global CSS variables */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 12%;
+
+  --card: 0 0% 100%;
+  --primary: 220 90% 56%;
+  --secondary: 340 82% 52%;
+}
+
+html, body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Custom classes */
+.bg-primary { background-color: hsl(var(--primary)); }
+.text-primary { color: hsl(var(--primary)); }
+.bg-secondary { background-color: hsl(var(--secondary)); }
+.text-secondary { color: hsl(var(--secondary)); }
+
+@keyframes popup {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-popup {
+  animation: popup 0.25s ease-out;
+}
