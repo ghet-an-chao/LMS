@@ -37,88 +37,83 @@ const Home: React.FC = () => {
 
   return (
     <div
-      className="page-wrapper"
       style={{
-        minHeight: "2700px",
+        width: "100%",        // fit full màn hình
+        maxWidth: "1920px",   // không vượt quá thiết kế gốc nếu màn hình rất lớn
         backgroundColor: "#fff",
+        margin: "0 auto",     // căn giữa nếu màn hình > 1920px
         position: "relative",
         overflowX: "hidden",
         fontFamily: "Inter, sans-serif",
       }}
     >
+
       {/* ======================= MENU OVERLAY ======================= */}
       {openMenu && (
         <div
+          onClick={() => setOpenMenu(false)} // Bấm ra ngoài → đóng menu
           style={{
             position: "fixed",
-            top: 0,
-            left: 0,
-            height: "100vh",
-            width: "420px",
-            backgroundColor: "#E84040",
-            padding: "50px 40px",
-            zIndex: 999,
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "32px",
-            color: "#fff",
-            fontSize: "26px",
-            fontWeight: 500,
+            inset: 0,
+            backgroundColor: "rgba(0,0,0,0.25)", // lớp mờ
+            zIndex: 998,
           }}
         >
-          {/* MENU ITEMS */}
-          <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>
-            TRANG CHỦ
-          </a>
-
-          <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>
-            KHOÁ HỌC
-          </a>
-
-          <a href="/student/roadmaps" style={{ textDecoration: "none", color: "white" }}>
-            LỘ TRÌNH HỌC
-          </a>
-
-          <a href="/student/grades" style={{ textDecoration: "none", color: "white" }}>
-            BẢNG ĐIỂM
-          </a>
-
-          <a href="/student/certificates" style={{ textDecoration: "none", color: "white" }}>
-            CHỨNG CHỈ
-          </a>
-
-          <a href="/student/profile" style={{ textDecoration: "none", color: "white" }}>
-            THÔNG TIN CÁ NHÂN
-          </a>
-
-          {/* LOGOUT */}
+          {/* MENU BOX */}
           <div
+            onClick={(e) => e.stopPropagation()} // bấm bên trong KHÔNG đóng
             style={{
-              marginTop: "20px",
+              height: "100vh",
+              width: "420px",
+              backgroundColor: "#E84040",
+              padding: "50px 40px",
+              zIndex: 999,
               display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              cursor: "pointer",
+              flexDirection: "column",
+              rowGap: "32px",
+              color: "#fff",
+              fontSize: "26px",
+              fontWeight: 500,
             }}
           >
-            <img
-              src={logoutIcon}
-              alt="logout"
-              style={{ width: "28px", height: "28px", objectFit: "contain" }}
-            />
-            <span style={{ color: "white" }}>ĐĂNG XUẤT</span>
+            <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>TRANG CHỦ</a>
+            <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>KHOÁ HỌC</a>
+            <a href="/student/roadmaps" style={{ textDecoration: "none", color: "white" }}>LỘ TRÌNH HỌC</a>
+            <a href="/student/grades" style={{ textDecoration: "none", color: "white" }}>BẢNG ĐIỂM</a>
+            <a href="/student/certificates" style={{ textDecoration: "none", color: "white" }}>CHỨNG CHỈ</a>
+            <a href="/student/profile" style={{ textDecoration: "none", color: "white" }}>THÔNG TIN CÁ NHÂN</a>
+
+            {/* LOGOUT */}
+            <div
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src={logoutIcon}
+                alt="logout"
+                style={{ width: "28px", height: "28px", objectFit: "contain" }}
+              />
+              <span style={{ color: "white" }}>ĐĂNG XUẤT</span>
+            </div>
           </div>
         </div>
       )}
+
 
       {/* ======================= SECTION 1 – GREETING ======================= */}
       <div
         style={{
           width: "100%",
-          height: "1080px",
+          height: "700px",
           backgroundImage: `url(${bg1})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundSize: "100% auto",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "top center",
           position: "relative",
         }}
       >
@@ -127,37 +122,40 @@ const Home: React.FC = () => {
           onClick={() => setOpenMenu(!openMenu)}
           style={{
             position: "absolute",
-            top: "74px",
+            top: "44px",     // 74px - 30px
             left: "114px",
             cursor: "pointer",
             zIndex: 10,
           }}
         >
-          {/* 3 gạch đỏ */}
+          {/* 3 gạch đỏ – thu nhỏ 1/2 */}
           <div
             style={{
-              width: "75px",
-              height: "4px",
+              width: "37px", // 75 / 2
+              height: "2px", // 4 / 2
               backgroundColor: "#E84040",
-              marginBottom: "14px",
+              marginBottom: "8px", // 14px / 2 ≈ 7 → làm đẹp hơn dùng 8px
             }}
           ></div>
+
           <div
             style={{
-              width: "75px",
-              height: "4px",
+              width: "37px",
+              height: "2px",
               backgroundColor: "#E84040",
-              marginBottom: "14px",
+              marginBottom: "8px",
             }}
           ></div>
+
           <div
             style={{
-              width: "75px",
-              height: "4px",
+              width: "37px",
+              height: "2px",
               backgroundColor: "#E84040",
             }}
           ></div>
         </div>
+
 
         {/* LOGO */}
         <img
@@ -165,10 +163,11 @@ const Home: React.FC = () => {
           alt="logo"
           style={{
             position: "absolute",
-            top: "68px",
-            left: "226px",
-            width: "95px",
-            height: "63px",
+            top: "38px",   // 68px - 30px
+            left: "180px",
+            width: "48px",    // 95 / 2
+            height: "32px",   // 63 / 2
+            objectFit: "contain",
           }}
         />
 
@@ -176,7 +175,7 @@ const Home: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: "400px",
+            top: "250px",
             left: "114px",
             width: "650px",
             color: "#E84040",
@@ -185,7 +184,7 @@ const Home: React.FC = () => {
           <h2 style={{ fontSize: "26px", fontStyle: "italic", marginBottom: "28px" }}>
             Chào mừng, Sinh viên{" "}
             <span style={{ fontWeight: 700, fontStyle: "normal" }}>
-              {user?.username || "username"}
+              {user?.username || "[username]"}
             </span>
             !
           </h2>
@@ -215,7 +214,7 @@ const Home: React.FC = () => {
         {/* Border line */}
         <div
           style={{
-            width: "1645px",
+            width: "1200px",
             height: "3px",
             backgroundColor: "#E84040",
             margin: "0 auto 70px auto",
@@ -290,7 +289,7 @@ const Home: React.FC = () => {
       <div
         style={{
           width: "100%",
-          height: "540px",
+          height: "350px",
           backgroundColor: "#D34444",
           color: "#fff",
           textAlign: "center",
@@ -299,11 +298,13 @@ const Home: React.FC = () => {
       >
         <h2 style={{ fontSize: "26px", fontWeight: 700 }}>CO2014 - HỆ CƠ SỞ DỮ LIỆU</h2>
 
-        <p style={{ fontSize: "22px", marginTop: "20px", marginBottom: "16px" }}>THÀNH VIÊN:</p>
+        <p style={{ fontSize: "20px", marginTop: "20px", marginBottom: "16px" }}>
+          THÀNH VIÊN:
+          <br />
+          Nguyễn Nhật Huy - Dương Khả Vân - Trương Mạnh Huy - Nguyễn Đặng Trí Dũng - Bùi Hà Hải
+        </p>
 
         <p style={{ fontSize: "20px", lineHeight: "34px" }}>
-          Nguyễn Nhật Huy - Dương Khả Vân - Trương Mạnh Huy - Nguyễn Đặng Trí Dũng - Bùi Hà Hải
-          <br />
           2025 All Right Reserved.
         </p>
       </div>
