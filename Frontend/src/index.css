@@ -39,3 +39,39 @@ body {
 body, html {
   overflow-x: hidden;
 }
+
+/* Styles for RoadmapPage */
+.roadmap-card {
+  border: 2px solid white;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 30px;
+}
+
+.roadmap-card h2 {
+  color: #fff;
+}
+
+.roadmap-card p {
+  color: #fff;
+}
+
+.course-bubble {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.course-card {
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.4);
+}

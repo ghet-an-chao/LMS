@@ -1,5 +1,4 @@
-// src/api/assignment.api.ts
-import api from "./http";
+import api from './http';
 
 export type Assignment = {
   assignment_id: number;
@@ -17,21 +16,14 @@ export type GetAssignmentsResponse = {
   assignments: Assignment[];
 };
 
-// GET /sections/:sectionId/assignments
-export const getSectionAssignments = async (
-  sectionId: number | string
-): Promise<GetAssignmentsResponse> => {
+// Lấy danh sách bài tập trong lớp học phần
+export const getSectionAssignments = async (sectionId: number | string): Promise<GetAssignmentsResponse> => {
   const res = await api.get(`/sections/${sectionId}/assignments`);
   return res.data;
 };
 
-// POST /assignments/:id/submit
-export const submitAssignmentApi = async (params: {
-  assignmentId: number | string;
-  content_url: string;
-}) => {
-  const res = await api.post(`/assignments/${params.assignmentId}/submit`, {
-    content_url: params.content_url,
-  });
+// Nộp bài tập
+export const submitAssignmentApi = async (params: { assignmentId: number | string; content_url: string }) => {
+  const res = await api.post(`/assignments/${params.assignmentId}/submit`, { content_url: params.content_url });
   return res.data;
 };

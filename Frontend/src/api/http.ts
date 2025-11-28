@@ -1,18 +1,17 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const API_BASE_URL = "http://localhost:3000";
+export const API_BASE_URL = 'http://localhost:3000';
 
-// Tạo instance axios
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
 // Lấy token từ localStorage
 function getToken() {
-  return localStorage.getItem("accessToken");
+  return localStorage.getItem('accessToken');
 }
 
 // Interceptor: tự động thêm Authorization vào mọi request
@@ -29,7 +28,7 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response?.status === 401) {
-      console.warn("Token invalid / expired");
+      console.warn('Token invalid / expired');
       // Có thể logout hoặc refresh token
     }
     return Promise.reject(err);

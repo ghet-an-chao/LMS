@@ -8,6 +8,8 @@ type Lecture = {
   lecture_id: number;
   title: string;
   position: number;
+  content_url: string;
+  reference_links: string;
 };
 
 type BillInfo = {
@@ -17,14 +19,17 @@ type BillInfo = {
   price_vnd: number;
   section_id: number;
   section_code: string;
-  lectures: Lecture[];
+  semester_no: number;  // Added semester_no
+  teacher_name: string;  // Added teacher_name
+  gateway_ref: string;  // Added gateway_ref
+  lectures: Lecture[];  // Lectures list
 };
 
 const PaymentPage: React.FC = () => {
   const navigate = useNavigate();
   const { courseId, sectionId } = useParams<{ courseId: string; sectionId: string }>();
 
-  const { data, isPending, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["bill", courseId, sectionId],
     enabled: !!courseId && !!sectionId,
     queryFn: async (): Promise<BillInfo> => {
@@ -41,7 +46,7 @@ const PaymentPage: React.FC = () => {
       });
     },
     onSuccess: () => {
-      alert("Thanh toán / đăng ký thành công!");
+      alert("Thanh toán thành công!");
       navigate("/student/register");
     },
     onError: () => {
@@ -50,7 +55,6 @@ const PaymentPage: React.FC = () => {
   });
 
   const handleCancel = () => {
-    // có thể thêm API hủy, tạm thời chỉ quay lại
     navigate("/student/register");
   };
 
@@ -70,7 +74,6 @@ const PaymentPage: React.FC = () => {
         padding: "40px 16px",
       }}
     >
-      {/* KHUNG TRẮNG MỜ */}
       <div
         style={{
           maxWidth: 720,
@@ -82,11 +85,10 @@ const PaymentPage: React.FC = () => {
           color: "#000",
         }}
       >
-        {isPending && <p>Đang tải thông tin hoá đơn...</p>}
+        {isLoading && <p>Đang tải thông tin hoá đơn...</p>}
         {error && <p>Lỗi tải dữ liệu.</p>}
-        {!isPending && data && (
+        {!isLoading && data && (
           <>
-            {/* Thông tin khoá học */}
             <div style={{ marginBottom: 20 }}>
               <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>
                 {data.course_code}
@@ -96,39 +98,34 @@ const PaymentPage: React.FC = () => {
               </h3>
 
               <p>Mã học phần: {data.section_code}</p>
-              <p>Học kỳ: 1</p>
-              {/* Nếu muốn chính xác, có thể thêm trường semester_no trong API bill */}
-              <p>Giảng viên: (lấy từ section nếu backend thêm)</p>
             </div>
 
             <hr style={{ borderColor: "#000", opacity: 0.6, margin: "16px 0" }} />
 
-            {/* Nội dung bài giảng */}
+            {/* Nội dung bài giảng (Lecture Content) */}
             <div style={{ marginBottom: 20 }}>
               <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>
                 Nội dung bài giảng
               </h3>
-              {data.lectures.length === 0 ? (
+              {data.lectures && data.lectures.length === 0 ? (
                 <p>Chưa có bài giảng.</p>
               ) : (
                 <ul style={{ paddingLeft: 18 }}>
-                  {data.lectures.map((lec) => (
+                  {data.lectures?.map((lec) => (
                     <li key={lec.lecture_id} style={{ marginBottom: 4 }}>
-                      {lec.title}
+                      <strong>{lec.title}</strong>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
 
+
             <hr style={{ borderColor: "#000", opacity: 0.6, margin: "16px 0" }} />
 
             {/* Giá tiền & thanh toán */}
             <div>
               <p style={{ marginBottom: 8 }}>
-                <strong>Cổng giao dịch:</strong> VNPAY_123456789
-              </p>
-              <p style={{ marginBottom: 20 }}>
                 <strong>Tổng tiền:</strong>{" "}
                 {data.price_vnd.toLocaleString("vi-VN")} VND
               </p>

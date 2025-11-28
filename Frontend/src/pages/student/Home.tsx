@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthProvider";
 const Home: React.FC = () => {
   const { user } = useAuth();
   const [openMenu, setOpenMenu] = useState(false);
+  const studentId = user?.id;
 
   const popularCourses = [
     {
@@ -79,9 +80,9 @@ const Home: React.FC = () => {
             <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>TRANG CHỦ</a>
             <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>KHOÁ HỌC</a>
             <a href="/student/roadmaps" style={{ textDecoration: "none", color: "white" }}>LỘ TRÌNH HỌC</a>
-            <a href="/student/grades" style={{ textDecoration: "none", color: "white" }}>BẢNG ĐIỂM</a>
-            <a href="/student/certificates" style={{ textDecoration: "none", color: "white" }}>CHỨNG CHỈ</a>
-            <a href="/student/profile" style={{ textDecoration: "none", color: "white" }}>THÔNG TIN CÁ NHÂN</a>
+            <a href={`/students/${studentId}/grades`} style={{ textDecoration: "none", color: "white" }}>BẢNG ĐIỂM</a>
+            <a href={`/students/${studentId}/certificates`} style={{ textDecoration: "none", color: "white" }}>CHỨNG CHỈ</a>
+            <a href={`/students/${studentId}/profile`} style={{ textDecoration: "none", color: "white" }}>THÔNG TIN CÁ NHÂN</a>
 
             {/* LOGOUT */}
             <div

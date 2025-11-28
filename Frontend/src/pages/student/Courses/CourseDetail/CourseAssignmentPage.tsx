@@ -1,4 +1,3 @@
-// src/pages/student/Courses/CourseAssignmentPage.tsx
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -50,7 +49,7 @@ const CourseAssignmentPage: React.FC = () => {
       setShowModal(false);
       setSubmitLink("");
       refetch();
-      alert("Nộp bài thành công (kiểm tra lại DB nếu cần).");
+      alert("Nộp bài thành công.");
     },
     onError: () => {
       alert("Nộp bài thất bại. Kiểm tra server / dữ liệu.");
@@ -68,10 +67,10 @@ const CourseAssignmentPage: React.FC = () => {
     <>
       <CourseDetailLayout
         activeTab="assignments"
-        courseCode="CS101"
-        courseTitle="Introduction to Programming"
-        teacherName="Thuy Do"
-        language="EN"
+        courseCode=""
+        courseTitle="XEM BÀI TẬP LỚN"
+        teacherName=""
+        language=""
       >
         {isLoading && <p>Đang tải Assignment...</p>}
         {error && (
@@ -145,7 +144,7 @@ const CourseAssignmentPage: React.FC = () => {
                     style={{
                       padding: "0 28px 22px",
                       fontSize: "18px",
-                      color: "#E84040",
+                      color: "black",
                     }}
                   >
                     <p style={{ marginBottom: "8px" }}>
@@ -243,6 +242,8 @@ const CourseAssignmentPage: React.FC = () => {
                 borderRadius: "12px",
                 border: "1px solid #ddd",
                 marginBottom: "18px",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             />
 

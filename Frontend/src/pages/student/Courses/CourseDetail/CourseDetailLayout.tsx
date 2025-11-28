@@ -1,7 +1,7 @@
-// src/pages/student/CourseDetail/CourseDetailLayout.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import bg5 from "../../../../assets/images/elementDatabaseWeb5.png";
+import logoutIcon from "../../../../assets/images/elementDatabaseWeb4.png";
 
 interface CourseHeaderProps {
   activeTab: "lectures" | "assignments" | "quizzes";
@@ -15,14 +15,14 @@ export const CourseDetailLayout: React.FC<
   React.PropsWithChildren<CourseHeaderProps>
 > = ({ activeTab, courseCode, courseTitle, teacherName, language, children }) => {
   const navigate = useNavigate();
-  const { courseId, sectionId } = useParams<{
-    courseId: string;
-    sectionId: string;
-  }>();
+  const { sectionId } = useParams<{ sectionId: string }>();
 
+  const [openMenu, setOpenMenu] = useState(false);
+
+  // Function to navigate between tabs (lectures, assignments, quizzes)
   const goTab = (tab: "lectures" | "assignments" | "quizzes") => {
-    if (!courseId || !sectionId) return;
-    navigate(`/student/courses/${courseId}/sections/${sectionId}/${tab}`);
+    if (!sectionId) return;
+    navigate(`/student/course/${sectionId}/${tab}`);
   };
 
   return (
@@ -38,6 +38,94 @@ export const CourseDetailLayout: React.FC<
         padding: "32px 0",
       }}
     >
+      {/* ======================= MENU OVERLAY ======================= */}
+      {openMenu && (
+        <div
+          onClick={() => setOpenMenu(false)} // Close menu when clicking outside
+          style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(0,0,0,0.25)", // dark background
+            zIndex: 998,
+          }}
+        >
+          {/* MENU BOX */}
+          <div
+            onClick={(e) => e.stopPropagation()} // Don't close when clicking inside
+            style={{
+              height: "100vh",
+              width: "420px",
+              backgroundColor: "#E84040",
+              padding: "50px 40px",
+              zIndex: 999,
+              display: "flex",
+              flexDirection: "column",
+              rowGap: "32px",
+              color: "#fff",
+              fontSize: "26px",
+              fontWeight: 500,
+            }}
+          >
+            {/* Links */}
+            <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>
+              TRANG CHỦ
+            </a>
+            <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>
+              KHOÁ HỌC
+            </a>
+            <a
+              onClick={() => goTab("lectures")}
+              style={{
+                textDecoration: "none",
+                color: "white",
+                cursor: "pointer"
+              }}
+            >
+              Lecture
+            </a>
+            <a
+              onClick={() => goTab("assignments")}
+              style={{
+                textDecoration: "none",
+                color: "white",
+                cursor: "pointer"
+              }}
+            >
+              Assignment
+            </a>
+            <a
+              onClick={() => goTab("quizzes")}
+              style={{
+                textDecoration: "none",
+                color: "white",
+                cursor: "pointer"
+              }}
+            >
+              Quiz
+            </a>
+
+            {/* LOGOUT */}
+            <div
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src={logoutIcon}
+                alt="logout"
+                style={{ width: "28px", height: "28px", objectFit: "contain" }}
+              />
+              <span style={{ color: "white" }}>ĐĂNG XUẤT</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ======================= CONTENT ======================= */}
       <div
         style={{
           width: "100%",
@@ -47,7 +135,7 @@ export const CourseDetailLayout: React.FC<
           boxSizing: "border-box",
         }}
       >
-        {/* ICON MENU 3 GẠCH – GIỐNG TRANG CHỦ, MÀU TRẮNG */}
+        {/* MENU ICON */}
         <div
           style={{
             position: "relative",
@@ -59,7 +147,7 @@ export const CourseDetailLayout: React.FC<
         >
           <div
             style={{ cursor: "pointer" }}
-            onClick={() => navigate("/student/home")}
+            onClick={() => setOpenMenu(true)} // Open menu
           >
             {[0, 1, 2].map((i) => (
               <div
@@ -85,9 +173,7 @@ export const CourseDetailLayout: React.FC<
               return (
                 <button
                   key={tab.key}
-                  onClick={() =>
-                    goTab(tab.key as "lectures" | "assignments" | "quizzes")
-                  }
+                  onClick={() => goTab(tab.key as "lectures" | "assignments" | "quizzes")}
                   style={{
                     padding: "12px 36px",
                     borderRadius: "8px",
@@ -107,7 +193,7 @@ export const CourseDetailLayout: React.FC<
           </div>
         </div>
 
-        {/* THÔNG TIN MÔN HỌC */}
+        {/* COURSE INFO */}
         <div
           style={{
             fontSize: "26px",
@@ -121,7 +207,7 @@ export const CourseDetailLayout: React.FC<
           {language ? `- ${language}` : ""}
         </div>
 
-        {/* KHUNG SCROLL CỐ ĐỊNH CHO NỘI DUNG */}
+        {/* SCROLLABLE CONTENT */}
         <div
           style={{
             maxHeight: "70vh",

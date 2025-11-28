@@ -1,12 +1,8 @@
-// src/pages/student/Courses/CourseLecturePage.tsx
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import {
-  getSectionLectures,
-  type GetLecturesResponse,
-} from "../../../../api/lecture.api";
+import { getSectionLectures, type GetLecturesResponse } from "../../../../api/lecture.api";
 import { CourseDetailLayout } from "./CourseDetailLayout";
 
 const CourseLecturePage: React.FC = () => {
@@ -16,7 +12,7 @@ const CourseLecturePage: React.FC = () => {
   const { data, isLoading, error } = useQuery<GetLecturesResponse>({
     queryKey: ["lectures", sectionId],
     enabled: !!sectionId,
-    queryFn: () => getSectionLectures(sectionId!), // sectionId chắc chắn có khi enabled = true
+    queryFn: () => getSectionLectures(sectionId!), // sectionId is definitely present when enabled = true
   });
 
   const lectures = data?.lectures ?? [];
@@ -28,17 +24,13 @@ const CourseLecturePage: React.FC = () => {
   return (
     <CourseDetailLayout
       activeTab="lectures"
-      courseCode="CS101"
-      courseTitle="Introduction to Programming"
-      teacherName="Thuy Do"
-      language="EN"
+      courseCode=""
+      courseTitle="XEM BÀI GIẢNG"
+      teacherName=""
+      language=""
     >
       {isLoading && <p>Đang tải danh sách bài giảng...</p>}
-      {error && (
-        <p style={{ color: "#ffdede" }}>
-          Lỗi tải dữ liệu Lecture (kiểm tra server / database).
-        </p>
-      )}
+      {error && <p style={{ color: "#ffdede" }}>Lỗi tải dữ liệu Lecture.</p>}
 
       {lectures
         .slice()
@@ -56,7 +48,7 @@ const CourseLecturePage: React.FC = () => {
                 overflow: "hidden",
               }}
             >
-              {/* HÀNG TIÊU ĐỀ + MŨI TÊN */}
+              {/* TITLE + ARROW */}
               <div
                 style={{
                   display: "flex",
@@ -77,7 +69,6 @@ const CourseLecturePage: React.FC = () => {
                   {lec.title}
                 </div>
 
-                {/* Mũi tên tam giác */}
                 <div
                   style={{
                     width: 0,
@@ -91,7 +82,7 @@ const CourseLecturePage: React.FC = () => {
                 />
               </div>
 
-              {/* NỘI DUNG */}
+              {/* CONTENT */}
               {isOpen && (
                 <>
                   <div
@@ -105,7 +96,7 @@ const CourseLecturePage: React.FC = () => {
                     style={{
                       padding: "0 28px 22px",
                       fontSize: "18px",
-                      color: "#E84040",
+                      color: "black",
                     }}
                   >
                     <p style={{ marginBottom: "10px" }}>
@@ -123,9 +114,7 @@ const CourseLecturePage: React.FC = () => {
           );
         })}
 
-      {!isLoading && lectures.length === 0 && (
-        <p>Hiện chưa có bài giảng nào cho lớp học phần này.</p>
-      )}
+      {!isLoading && lectures.length === 0 && <p>Chưa có bài giảng nào.</p>}
     </CourseDetailLayout>
   );
 };

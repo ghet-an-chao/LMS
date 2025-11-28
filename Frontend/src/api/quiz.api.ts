@@ -1,5 +1,4 @@
-// src/api/quiz.api.ts
-import api from "./http";
+import api from './http';
 
 export type Quiz = {
   quiz_id: number;
@@ -37,13 +36,22 @@ export type StartQuizResponse = {
   }[];
 };
 
-export type SubmitQuizPayload = {
-  attemptId: number | string;
-  answers: {
-    question_id: number;
-    selected_option_ids: number[];
-    answer_text?: string;
-  }[];
+// Lấy danh sách quiz trong lớp học phần
+export const getSectionQuizzes = async (sectionId: number | string): Promise<GetQuizzesResponse> => {
+  const res = await api.get(`/sections/${sectionId}/quizzes`);
+  return res.data;
+};
+
+// Bắt đầu quiz
+export const startQuizApi = async (quizId: number | string): Promise<StartQuizResponse> => {
+  const res = await api.post(`/quizzes/${quizId}/attempts`);
+  return res.data;
+};
+
+// Nộp bài quiz
+export const submitQuizApi = async (attemptId: number | string, answers: any) => {
+  const res = await api.patch(`/quiz-attempts/${attemptId}/submit`, { answers });
+  return res.data;
 };
 
 export type QuizResultsResponse = {
@@ -75,31 +83,7 @@ export type QuizResultsResponse = {
   }[];
 };
 
-// GET /sections/:sectionId/quizzes
-export const getSectionQuizzes = async (
-  sectionId: number | string
-): Promise<GetQuizzesResponse> => {
-  const res = await api.get(`/sections/${sectionId}/quizzes`);
-  return res.data;
-};
-
-// POST /quizzes/:id/attempts
-export const startQuizApi = async (
-  quizId: number | string
-): Promise<StartQuizResponse> => {
-  const res = await api.post(`/quizzes/${quizId}/attempts`);
-  return res.data;
-};
-
-// PATCH /quiz-attempts/:id/submit
-export const submitQuizApi = async (payload: SubmitQuizPayload) => {
-  const res = await api.patch(`/quiz-attempts/${payload.attemptId}/submit`, {
-    answers: payload.answers,
-  });
-  return res.data;
-};
-
-// GET /quizzes/:quizId/results
+// Hàm để lấy kết quả quiz
 export const getQuizResultsApi = async (
   quizId: number | string
 ): Promise<QuizResultsResponse> => {

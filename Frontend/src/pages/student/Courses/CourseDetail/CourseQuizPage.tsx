@@ -1,4 +1,3 @@
-// src/pages/student/Courses/CourseQuizPage.tsx
 import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -78,10 +77,10 @@ const CourseQuizPage: React.FC = () => {
     <>
       <CourseDetailLayout
         activeTab="quizzes"
-        courseCode="CS101"
-        courseTitle="Introduction to Programming"
-        teacherName="Thuy Do"
-        language="EN"
+        courseCode=""
+        courseTitle="XEM BÀI KIỂM TRA"
+        teacherName=""
+        language=""
       >
         {isLoading && <p>Đang tải Quiz...</p>}
         {error && (
@@ -150,7 +149,7 @@ const CourseQuizPage: React.FC = () => {
                     style={{
                       padding: "0 28px 22px",
                       fontSize: "18px",
-                      color: "#E84040",
+                      color: "black",
                     }}
                   >
                     <p style={{ marginBottom: "8px" }}>

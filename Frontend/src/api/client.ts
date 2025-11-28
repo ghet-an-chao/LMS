@@ -1,13 +1,12 @@
-// src/api/client.ts
-import axios from "axios";
+import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: 'http://localhost:3000',
 });
 
-// tự động gắn token từ localStorage (do trang login lưu vào đó)
+// Tự động gắn token từ localStorage
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken"); // nhớ trùng key với trang login
+  const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers = config.headers ?? {};
     config.headers.Authorization = `Bearer ${token}`;

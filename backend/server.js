@@ -1,4 +1,3 @@
-// backend/server.js
 const express = require("express");
 const cors = require("cors");
 
@@ -8,332 +7,125 @@ app.use(express.json());
 
 const PORT = 3000;
 
-// ==================== MOCK DATA CƠ BẢN ====================
 const STUDENT_ID = 1;
 
-// ----- Courses -----
+// ----- Mock Data -----
+// Users
+const users = [
+  { user_id: 1, username: "huytran", first_name: "Huy", last_name: "Tran", email: "huy.tran@example.com", role: "student", status: "active" },
+  // Add more users if needed...
+];
+
+// Courses
 const courses = [
-  {
-    course_id: 1,
-    course_code: "CS101",
-    title: "Introduction to Programming",
-    credits: 3,
-    language: "EN",
-    description: "Basics of programming with examples.",
-    pass_threshold_pct: 50,
-    price_vnd: 1500000,
-  },
-  {
-    course_id: 2,
-    course_code: "MATH201",
-    title: "Advanced Calculus",
-    credits: 4,
-    language: "VN",
-    description: "Giải tích nâng cao.",
-    pass_threshold_pct: 50,
-    price_vnd: 1800000,
-  },
+  { course_id: 1, course_code: "CS101", title: "Introduction to Programming", credits: 3, language: "EN", description: "Learn basic programming concepts.", pass_threshold_pct: 60, price_vnd: 1500000 },
+  { course_id: 2, course_code: "MATH201", title: "Advanced Calculus", credits: 4, language: "VN", description: "In-depth study of calculus.", pass_threshold_pct: 65, price_vnd: 1800000 }
 ];
 
-// ----- Sections -----
+// Sections
 const sections = [
-  {
-    section_id: 101,
-    course_id: 1,
-    section_code: "CS101-A",
-    semester_no: 1,
-    created_at: "2025-01-01T00:00:00Z",
-    teacher: {
-      teacher_id: 1,
-      name: "Thuy Do",
-    },
-  },
-  {
-    section_id: 201,
-    course_id: 2,
-    section_code: "MATH201-A",
-    semester_no: 1,
-    created_at: "2025-01-01T00:00:00Z",
-    teacher: {
-      teacher_id: 2,
-      name: "Linh Pham",
-    },
-  },
+  { section_id: 101, course_id: 1, section_code: "CS101-A", semester_no: 1, teacher_id: 1, teacher_name: "Thuy Do" },
+  { section_id: 201, course_id: 2, section_code: "MATH201-B", semester_no: 1, teacher_id: 2, teacher_name: "Linh Pham" }
 ];
 
-// ----- Enrollments (khoá học của tôi) -----
-let enrollments = [
-  {
-    student_id: STUDENT_ID,
-    section_id: 101,
-    enrolled_at: "2025-01-10T00:00:00Z",
-    status: "enrolled",
-    origin: "mock",
-  },
+// Enrollments
+const enrollments = [
+  { student_id: 1, section_id: 101, enrolled_at: "2025-01-10", status: "enrolled", origin: "manual" }
 ];
 
-// ----- Lectures theo section -----
-const lecturesBySection = {
-  101: [
-    {
-      lecture_id: 1,
-      title: "Chap 1: Introduce to Programming",
-      position: 1,
-      content_url: "https://example.com/lecture1",
-      reference_links: "https://docs.example.com/lec1",
-    },
-    {
-      lecture_id: 2,
-      title: "Chap 2: Basic Knowledge",
-      position: 2,
-      content_url: "https://example.com/lecture2",
-      reference_links: "https://docs.example.com/lec2",
-    },
-  ],
-  201: [
-    {
-      lecture_id: 3,
-      title: "Chap 1: Review",
-      position: 1,
-      content_url: "https://example.com/lecture3",
-      reference_links: "",
-    },
-  ],
-};
-
-// ----- Assignments -----
+// Assignments
 const assignmentsBySection = {
   101: [
-    {
-      assignment_id: 1,
-      section_id: 101,
-      created_by: 1,
-      title: 'Assignment 1: Write a Program to Cout "Hello World"',
-      weight_pct: 20,
-      due_at: "2025-11-20T23:59:00Z",
-      max_score: 10,
-    },
-    {
-      assignment_id: 2,
-      section_id: 101,
-      created_by: 1,
-      title: "Assignment 2: Write a Loop Program",
-      weight_pct: 30,
-      due_at: "2025-12-01T23:59:00Z",
-      max_score: 10,
-    },
-  ],
+    { assignment_id: 1, section_id: 101, created_by: 1, title: "Assignment 1: Hello World", weight_pct: 20, due_at: "2025-11-20T23:59:00Z", max_score: 10 },
+    { assignment_id: 2, section_id: 101, created_by: 1, title: "Assignment 2: Loop Programming", weight_pct: 30, due_at: "2025-12-01T23:59:00Z", max_score: 10 }
+  ]
 };
 
-let assignmentSubmissions = []; // chỉ để log demo
-
-// ----- Quizzes -----
+// Quizzes
 const quizzesBySection = {
   101: [
-    {
-      quiz_id: 1,
-      section_id: 101,
-      created_by: 1,
-      title: "Quiz 1: Variables",
-      time_limit_min: 30,
-      attempts_allowed: 5,
-    },
-    {
-      quiz_id: 2,
-      section_id: 101,
-      created_by: 1,
-      title: "Quiz 2: Loop Program",
-      time_limit_min: 20,
-      attempts_allowed: null, // không giới hạn
-    },
-  ],
+    { quiz_id: 1, section_id: 101, created_by: 1, title: "Quiz 1: Variables", time_limit_min: 30, attempts_allowed: 5 },
+    { quiz_id: 2, section_id: 101, created_by: 1, title: "Quiz 2: Loop Programming", time_limit_min: 20, attempts_allowed: null }
+  ]
 };
 
-const quizQuestions = {
-  1: [
-    {
-      question_id: 1,
-      title: "Biến là gì?",
-      question_type: "single_choice",
-      options: [
-        { option_id: 1, text: "Vùng nhớ có tên" },
-        { option_id: 2, text: "Một hàng trong bảng" },
-        { option_id: 3, text: "Một loại hàm" },
-      ],
-    },
-    {
-      question_id: 2,
-      title: "Kiểu dữ liệu nào sau đây là số nguyên?",
-      question_type: "single_choice",
-      options: [
-        { option_id: 4, text: "int" },
-        { option_id: 5, text: "float" },
-        { option_id: 6, text: "string" },
-      ],
-    },
+// Lectures (New Mock Data)
+const lecturesBySection = {
+  101: [
+    { lecture_id: 1, section_id: 101, created_by: 1, title: "Intro to Programming", content_url: "https://example.com/lectures/1", reference_links: "https://docs.example.com", position: 1 },
+    { lecture_id: 2, section_id: 101, created_by: 1, title: "Variables and Data Types", content_url: "https://example.com/lectures/2", reference_links: "https://programmingexample.com", position: 2 }
   ],
+  201: [
+    { lecture_id: 3, section_id: 201, created_by: 2, title: "Calculus Overview", content_url: "https://example.com/lectures/3", reference_links: "https://math.com", position: 1 }
+  ]
 };
 
-let quizAttemptsStore = [
-  {
-    quiz_id: 1,
-    student_id: STUDENT_ID,
-    attempts: [
-      {
-        attempt_id: 1,
-        attempt_no: 1,
-        status: "finished",
-        score: 8,
-        start_at: "2025-01-20T10:00:00Z",
-        end_at: "2025-01-20T10:25:00Z",
-      },
-    ],
-  },
-];
+// ----- Routes -----
+// 1. Authentication - Login and Register
+app.post("/auth/login", (req, res) => {
+  const { email, password } = req.body;
+  const user = users.find((u) => u.email === email && password === "123456");
 
-// ==================== MIDDLEWARE AUTH MOCK ====================
-//  BỎ HẲN CHECK TOKEN: luôn coi như student_id = 1 đã login
-function authMiddleware(req, res, next) {
-  req.user = { user_id: STUDENT_ID, role: "student" };
-  next();
-}
-app.use(authMiddleware);
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized", message: "Invalid email or password" });
+  }
 
-// ==================== ROUTES ====================
+  const accessToken = "jwt_token_here"; // Fake JWT token
+  res.json({
+    accessToken,
+    user: { ...user }
+  });
+});
 
-// -------- Courses ----------
+// 2. Get user profile
+app.get("/users/me", (req, res) => {
+  const user = users.find((u) => u.user_id === STUDENT_ID);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  res.json(user);
+});
+
+// 3. Courses
 app.get("/courses", (req, res) => {
   res.json({ courses });
 });
 
+// Get sections for a course
 app.get("/courses/:courseId/sections", (req, res) => {
   const courseId = Number(req.params.courseId);
-  const secs = sections.filter((s) => s.course_id === courseId);
-  res.json({ course_id: courseId, sections: secs });
+  const courseSections = sections.filter((s) => s.course_id === courseId);
+  res.json({ course_id: courseId, sections: courseSections });
 });
 
-// -------- Enrollments (khoá học của tôi) ----------
+// 4. Enrollments
 app.get("/enrollments", (req, res) => {
-  const studentEnrollments = enrollments.filter(
-    (e) => e.student_id === req.user.user_id
-  );
-  res.json({
-    student_id: req.user.user_id,
-    enrollments: studentEnrollments,
-  });
+  const studentEnrollments = enrollments.filter((e) => e.student_id === STUDENT_ID);
+  res.json({ student_id: STUDENT_ID, enrollments: studentEnrollments });
 });
 
-// -------- Lectures ----------
-app.get("/sections/:sectionId/lectures", (req, res) => {
-  const sectionId = Number(req.params.sectionId);
-  const lectures = lecturesBySection[sectionId] || [];
-  res.json({ section_id: sectionId, lectures });
-});
-
-// -------- Assignments ----------
+// 5. Assignments
 app.get("/sections/:sectionId/assignments", (req, res) => {
   const sectionId = Number(req.params.sectionId);
   const assignments = assignmentsBySection[sectionId] || [];
-  res.json({
-    status: "ok",
-    message: "assignments mock",
-    assignments,
-  });
+  res.json({ assignments });
 });
 
-app.post("/assignments/:assignmentId/submit", (req, res) => {
-  const assignmentId = Number(req.params.assignmentId);
-  const { content_url } = req.body || {};
-
-  assignmentSubmissions.push({
-    assignment_id: assignmentId,
-    student_id: req.user.user_id,
-    content_url,
-    submitted_at: new Date().toISOString(),
-  });
-
-  res.json({ status: "ok", message: "submitted (mock)" });
-});
-
-// -------- Quizzes ----------
+// 6. Quizzes
 app.get("/sections/:sectionId/quizzes", (req, res) => {
   const sectionId = Number(req.params.sectionId);
   const quizzes = quizzesBySection[sectionId] || [];
-  res.json({
-    status: "ok",
-    message: "quizzes mock",
-    quizzes,
-  });
+  res.json({ quizzes });
 });
 
-app.post("/quizzes/:quizId/attempts", (req, res) => {
-  const quizId = Number(req.params.quizId);
-  const questions = quizQuestions[quizId] || [];
-  const newAttemptId = Date.now();
-
-  // lưu demo
-  let quizItem = quizAttemptsStore.find(
-    (q) => q.quiz_id === quizId && q.student_id === req.user.user_id
-  );
-  if (!quizItem) {
-    quizItem = {
-      quiz_id: quizId,
-      student_id: req.user.user_id,
-      attempts: [],
-    };
-    quizAttemptsStore.push(quizItem);
-  }
-  const attemptNo = quizItem.attempts.length + 1;
-  quizItem.attempts.push({
-    attempt_id: newAttemptId,
-    attempt_no: attemptNo,
-    status: "in_progress",
-    score: 0,
-    start_at: new Date().toISOString(),
-    end_at: null,
-  });
-
-  res.json({
-    attempt_id: newAttemptId,
-    quiz_id: quizId,
-    questions,
-  });
+// 7. Lectures - Get lectures for a section
+app.get("/sections/:sectionId/lectures", (req, res) => {
+  const sectionId = Number(req.params.sectionId);
+  const lectures = lecturesBySection[sectionId] || [];
+  res.json({ lectures });
 });
 
-app.patch("/quiz-attempts/:attemptId/submit", (req, res) => {
-  const attemptId = Number(req.params.attemptId);
-  const { answers } = req.body || [];
-
-  quizAttemptsStore.forEach((quizItem) => {
-    quizItem.attempts.forEach((a) => {
-      if (a.attempt_id === attemptId) {
-        a.status = "finished";
-        a.score = 10; // luôn 10 điểm cho vui
-        a.end_at = new Date().toISOString();
-      }
-    });
-  });
-
-  console.log("Quiz answers mock:", attemptId, answers);
-  res.json({ status: "ok", message: "quiz submitted (mock)" });
-});
-
-app.get("/quizzes/:quizId/results", (req, res) => {
-  const quizId = Number(req.params.quizId);
-  const record = quizAttemptsStore.find(
-    (q) => q.quiz_id === quizId && q.student_id === req.user.user_id
-  );
-
-  res.json(
-    record || {
-      quiz_id: quizId,
-      student_id: req.user.user_id,
-      attempts: [],
-    }
-  );
-});
-
-// -------- Bill & Payment ----------
+// 8. Payment / Enrollment
 app.get("/bill/:courseId/:sectionId", (req, res) => {
   const courseId = Number(req.params.courseId);
   const sectionId = Number(req.params.sectionId);
@@ -345,41 +137,149 @@ app.get("/bill/:courseId/:sectionId", (req, res) => {
     return res.status(404).json({ message: "Course/Section not found" });
   }
 
-  const lectures = lecturesBySection[sectionId] || [];
-
   res.json({
     course_id: course.course_id,
     course_code: course.course_code,
     course_title: course.title,
+    teacher_name: section.teacher_name,
     price_vnd: course.price_vnd,
     section_id: section.section_id,
     section_code: section.section_code,
-    lectures,
+    lectures: lecturesBySection[sectionId] || []  // Add lectures data here
   });
 });
 
+// Make a payment (Mock)
 app.post("/pay", (req, res) => {
-  const { course_id, section_id } = req.body || {};
+  const { course_id, section_id } = req.body;
 
-  // thêm enrollment nếu chưa có
   const existing = enrollments.find(
-    (e) =>
-      e.student_id === req.user.user_id && e.section_id === Number(section_id)
+    (e) => e.student_id === STUDENT_ID && e.section_id === Number(section_id)
   );
+
   if (!existing) {
     enrollments.push({
-      student_id: req.user.user_id,
+      student_id: STUDENT_ID,
       section_id: Number(section_id),
       enrolled_at: new Date().toISOString(),
-      status: "paid",
-      origin: "payment_mock",
+      status: "enrolled",
+      origin: "payment_mock"
     });
   }
 
-  res.json({ status: "ok", message: "payment success (mock)" });
+  res.json({ status: "ok", message: "Payment successful (mock)" });
 });
 
-// ==================== START SERVER ====================
+// 9. Grades
+app.get("/students/:studentId/grades", (req, res) => {
+  const studentId = Number(req.params.studentId);
+  const grades = [
+    { course_code: "CS101", title: "Introduction to Programming", final_weighted_score: 8.5, status: "passed" },
+    { course_code: "MATH201", title: "Advanced Calculus", final_weighted_score: 7.0, status: "failed" }
+  ];
+  res.json({ student_id: studentId, grades });
+});
+
+// Start the server
 app.listen(PORT, () => {
   console.log(`Mock server running at http://localhost:${PORT}`);
+});
+
+const roadmaps = [
+  {
+    id: 1,
+    title: "Programming Roadmap",
+    description: "Learn programming from basics to advanced.",
+    tips: "Start with variables and loops.",
+    courses: [
+      { code: "CS101", title: "Introduction to Programming", description: "Beginner level course." },
+      { code: "CS102", title: "Advanced Programming", description: "Intermediate level course." },
+      { code: "CS201", title: "DSA", description: "Data Structures and Algorithms." }
+    ]
+  },
+  {
+    id: 2,
+    title: "Calculus Roadmap",
+    description: "Master calculus step by step.",
+    tips: "Ensure you understand limits before moving forward.",
+    courses: [
+      { code: "MATH101", title: "Basic Calculus", description: "Introduction to calculus." },
+      { code: "MATH201", title: "Advanced Calculus", description: "In-depth study of calculus." }
+    ]
+  }
+];
+
+app.get("/student/roadmaps", (req, res) => {
+  res.json({ roadmaps });
+});
+
+// ----- Mock Data for Certificates -----
+// Certificate Data
+const certificates = [
+  {
+    course_code: "CS101",
+    course_title: "Introduction to Programming",
+    issued_on: "2025-11-30",
+    expires_on: "2026-11-30",
+    verify_code: "CERT001",
+    status: "issued"
+  },
+  {
+    course_code: "MATH201",
+    course_title: "Advanced Calculus",
+    issued_on: "2025-11-30",
+    expires_on: null,
+    verify_code: "CERT002",
+    status: "issued"
+  },
+  {
+    course_code: "EDU301",
+    course_title: "Teaching Methodologies",
+    issued_on: "2025-11-30",
+    expires_on: "2026-11-30",
+    verify_code: "CERT003",
+    status: "revoked"
+  }
+];
+app.get("/students/:studentId/certificates", (req, res) => {
+  const studentId = req.params.studentId;
+
+  // Trả về dữ liệu chứng chỉ mock
+  const studentCertificates = certificates.filter(cert => cert.status === "issued");
+  res.json(studentCertificates);
+});
+
+const students = [
+  {
+    user_id: 1,
+    username: "huytran",
+    first_name: "Huy",
+    last_name: "Tran",
+    email: "huytran@example.com",
+    role: "student",
+    status: "active"
+  },
+  // Add more mock students if needed
+];
+
+// Mock API route to fetch user profile by studentId
+app.get('/students/:studentId/profile', (req, res) => {
+  const studentId = req.params.studentId;
+  // Find the student by ID (mock data)
+  const student = students.find(u => u.user_id === parseInt(studentId));
+
+  if (!student) {
+    return res.status(404).json({ message: "Student not found" });
+  }
+
+  // Return the mock student profile data
+  res.json({
+    user_id: student.user_id,
+    username: student.username,
+    first_name: student.first_name,
+    last_name: student.last_name,
+    email: student.email,
+    role: student.role,
+    status: student.status,
+  });
 });
