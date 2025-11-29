@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { api } from "../../../api/client";
 import { useNavigate, Link } from "react-router-dom";
 import logoutIcon from "../../../assets/images/elementDatabaseWeb4.png";
+import { getCoursesApi } from "../../../api/course.api"; // Gọi API lấy khoá học
 
 type Course = {
   course_id: number;

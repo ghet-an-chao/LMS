@@ -113,7 +113,7 @@ const PaymentPage: React.FC = () => {
                 <ul style={{ paddingLeft: 18 }}>
                   {data.lectures?.map((lec) => (
                     <li key={lec.lecture_id} style={{ marginBottom: 4 }}>
-                      <strong>{lec.title}</strong>
+                      <p>{lec.title}</p>
                     </li>
                   ))}
                 </ul>

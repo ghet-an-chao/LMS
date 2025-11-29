@@ -10,10 +10,12 @@ import RoadmapPage from "./pages/student/Roadmap";
 import GradePage from "./pages/student/Grades";  
 import CertificatePage from "./pages/student/Certificates"; 
 import ProfilePage from "./pages/student/Profile";   
+import LoginPage from './pages/auth/Login';
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/student/home" />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/student/home" element={<Home />} />
       <Route path="/student/courses" element={<MyCoursesPage />} />
       <Route path="/student/register" element={<RegisterCoursePage />} />

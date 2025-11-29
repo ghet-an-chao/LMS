@@ -5,6 +5,7 @@ import bgMyCourses from "../../../assets/images/elementDatabaseWeb5.png";
 import logoutIcon from "../../../assets/images/elementDatabaseWeb4.png";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthProvider";
+import { getCoursesApi } from "../../../api/course.api"; // Sử dụng API lấy khoá học
 
 type Enrollment = {
   student_id: number;
@@ -48,7 +49,7 @@ type MyCourseRow = {
 const MyCoursesPage: React.FC = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const studentId = user?.id ?? 1; // Lấy từ context, fallback = 1
 
   const { data, isLoading, error } = useQuery({
@@ -97,7 +98,7 @@ const MyCoursesPage: React.FC = () => {
   });
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
+    logout();  // Gọi logout từ context
     navigate("/login");
   };
 
@@ -289,3 +290,117 @@ const MyCoursesPage: React.FC = () => {
 };
 
 export default MyCoursesPage;
+
+/*
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../../../api/client";
+import bgMyCourses from "../../../assets/images/elementDatabaseWeb5.png";
+import logoutIcon from "../../../assets/images/elementDatabaseWeb4.png";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../../context/AuthProvider";
+import { getCoursesApi } from "../../../api/course.api"; // Sử dụng API lấy khoá học
+
+const MyCoursesPage: React.FC = () => {
+  const [openMenu, setOpenMenu] = useState(false);
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const studentId = user?.id ?? 1;
+
+  const { data, isLoading, error } = useQuery(["myCourses"], getCoursesApi);
+
+  const handleLogout = () => {
+    logout();  // Gọi logout từ context
+    navigate("/login");
+  };
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        width: "100%",
+        backgroundImage: `url(${bgMyCourses})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        fontFamily: "Inter, sans-serif",
+        color: "#fff",
+        position: "relative",
+      }}
+    >
+    {openMenu && (
+        <div onClick={() => setOpenMenu(false)} style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.25)", zIndex: 998 }}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              height: "100vh",
+              width: "420px",
+              backgroundColor: "#E84040",
+              padding: "50px 40px",
+              zIndex: 999,
+              display: "flex",
+              flexDirection: "column",
+              rowGap: "32px",
+              color: "#fff",
+              fontSize: "26px",
+              fontWeight: 500,
+            }}
+          >
+            <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>TRANG CHỦ</a>
+            <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>KHOÁ HỌC</a>
+            <a href={`/students/${studentId}/profile`} style={{ textDecoration: "none", color: "white" }}>THÔNG TIN CÁ NHÂN</a>
+
+            <div onClick={handleLogout} style={{ marginTop: "20px", display: "flex", alignItems: "center", gap: "12px", cursor: "pointer" }}>
+              <img src={logoutIcon} alt="logout" style={{ width: "28px", height: "28px", objectFit: "contain" }} />
+              <span style={{ color: "white" }}>ĐĂNG XUẤT</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 16px 40px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div onClick={() => setOpenMenu(true)} style={{ cursor: "pointer", display: "flex", flexDirection: "column", gap: 8 }}>
+          <span style={{ width: 40, height: 3, backgroundColor: "#fff" }} />
+          <span style={{ width: 40, height: 3, backgroundColor: "#fff" }} />
+          <span style={{ width: 40, height: 3, backgroundColor: "#fff" }} />
+        </div>
+        <h1 style={{ fontSize: 28, fontWeight: 800, letterSpacing: 1, textTransform: "uppercase" }}>Xem các khoá học của tôi</h1>
+        <button onClick={() => navigate("/student/register")} style={{ padding: "12px 28px", borderRadius: 8, backgroundColor: "#fff", border: "2px solid #fff", color: "#E84040", fontWeight: 600, cursor: "pointer" }}>Đăng ký khoá học</button>
+      </div>
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px 40px 16px" }}>
+        {isLoading && <p>Đang tải khoá học...</p>}
+        {error && <p>Lỗi tải dữ liệu.</p>}
+        {!isLoading && !error && data?.length === 0 && <p>Hiện chưa có khoá học nào.</p>}
+
+        {data?.map((c) => (
+          <div
+            key={c.course_id}
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: 40,
+              padding: "18px 32px",
+              marginBottom: 18,
+              display: "grid",
+              gridTemplateColumns: "1fr 3fr 2fr 1fr 1fr 1.5fr",
+              alignItems: "center",
+              color: "#E84040",
+            }}
+          >
+            <span>{c.course_code}</span>
+            <span>{c.title}</span>
+            <span>{c.teacher_name}</span>
+            <span>{c.credits}</span>
+            <span>{c.language}</span>
+            <Link to={`/student/course/${c.course_id}`} style={{ textDecoration: "underline", fontStyle: "italic", color: "#E84040" }}>
+              Xem khoá học
+            </Link>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default MyCoursesPage;
+
+ */

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import logoutIcon from "../../assets/images/elementDatabaseWeb4.png";
 import { getUserInfoApi, updateUserInfoApi } from "../../api/user.api";
+import { logoutApi } from "../../api/auth.api"; 
+import { useAuth } from "../../context/AuthProvider";
 
 const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const { logout } = useAuth();
+
 
   // state cho form chỉnh sửa
   const [form, setForm] = useState({
@@ -33,6 +37,17 @@ const ProfilePage: React.FC = () => {
 
     fetchUserProfile();
   }, []);
+
+  const handleLogoutClick = async () => {
+    try {
+      await logoutApi();                        // gọi POST /auth/logout (có kèm Bearer token)
+    } catch (err) {
+      console.error("Logout API error:", err);
+      // vẫn tiếp tục logout phía client
+    } finally {
+      logout();                                 // xoá token + user + redirect /login
+    }
+  };
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
@@ -143,19 +158,13 @@ const ProfilePage: React.FC = () => {
 
             {/* LOGOUT (nếu muốn call /logout luôn) */}
             <div
+              onClick={handleLogoutClick}
               style={{
                 marginTop: "20px",
                 display: "flex",
                 alignItems: "center",
                 gap: "12px",
                 cursor: "pointer",
-              }}
-              onClick={() => {
-                // nếu muốn call API logout:
-                // api.post('/logout').finally(() => { ... })
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("user");
-                window.location.href = "/login";
               }}
             >
               <img

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import axios from 'axios';
+import { useParams } from "react-router-dom"; // Ensure useParams is imported
 import logoutIcon from "../../assets/images/elementDatabaseWeb4.png";
 import { useAuth } from "../../context/AuthProvider";
+import { logoutApi } from "../../api/auth.api"; 
 
 const CertificatesPage: React.FC = () => {
   const { studentId: paramId } = useParams<{ studentId: string }>();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const studentId = paramId ?? String(user?.id ?? 1);
 
   const [certificates, setCertificates] = useState<any[]>([]);
@@ -19,20 +20,32 @@ const CertificatesPage: React.FC = () => {
         const res = await axios.get(
           `http://localhost:3000/students/${studentId}/certificates`
         );
-        setCertificates(res.data);
+        console.log("Dữ liệu nhận được từ API:", res.data); // Log dữ liệu nhận được từ API
+        setCertificates(res.data); // Trả về mảng certificates trực tiếp từ API
       } catch (error) {
         console.error("Failed to fetch certificates", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchCertificates();
   }, [studentId]);
 
   if (loading) {
     return <p>Loading...</p>;
   }
+
+  const handleLogoutClick = async () => {
+    try {
+      await logoutApi();                        // gọi POST /auth/logout (có kèm Bearer token)
+    } catch (err) {
+      console.error("Logout API error:", err);
+      // vẫn tiếp tục logout phía client
+    } finally {
+      logout();                                 // xoá token + user + redirect /login
+    }
+  };
 
   return (
     <div
@@ -100,6 +113,7 @@ const CertificatesPage: React.FC = () => {
             </a>
 
             <div
+              onClick={handleLogoutClick}
               style={{
                 marginTop: "20px",
                 display: "flex",
@@ -145,7 +159,7 @@ const CertificatesPage: React.FC = () => {
           <span style={{ width: "40px", height: "3px", backgroundColor: "#E84040" }} />
         </div>
         <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#E84040", marginLeft: "20px" }}>
-          Chứng Chỉ
+          CHỨNG CHỈ
         </h1>
       </div>
 
@@ -158,66 +172,56 @@ const CertificatesPage: React.FC = () => {
           padding: "0 10px",
         }}
       >
-        {/* Header Row */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 3fr 2fr 1fr 1fr 1.5fr",
-            color: "#E84040",
-            fontWeight: 600,
-            marginBottom: 16,
-          }}
-        >
-          <div>Mã môn</div>
-          <div>Môn học</div>
-          <div>Ngày cấp</div>
-          <div>Hết hạn</div>
-          <div>Mã xác thực</div>
-          <div>Trạng thái</div>
-        </div>
-
-        {certificates.length === 0 && <p>Chưa có chứng chỉ nào.</p>}
-
-        <div
-          style={{
-            maxHeight: "calc(100vh - 200px)",
-            overflowY: "scroll",
-            paddingRight: "10px",
-          }}
-        >
-          {certificates.map((certificate) => (
-            <div
-              key={certificate.verify_code}
-              style={{
-                backgroundColor: "#fff",
-                borderRadius: "12px",
-                padding: "18px 32px",
-                marginBottom: 18,
-                display: "grid",
-                gridTemplateColumns: "1fr 3fr 2fr 1fr 1fr 1.5fr",
-                alignItems: "center",
-                border: "2px solid #E84040",
-                color: "#333",
-              }}
-            >
-              <div>{certificate.course_code}</div>
-              <div>{certificate.course_title}</div>
-              <div>{certificate.issued_on}</div>
-              <div>{certificate.expires_on || "Không có"}</div>
-              <div>{certificate.verify_code}</div>
-              <div>
-                <span
-                  style={{
-                    color: certificate.status === "issued" ? "green" : "red",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {certificate.status === "issued" ? "Được cấp" : "Đã thu hồi"}
-                </span>
+        {certificates.length === 0 ? (
+          <p>Chưa có chứng chỉ nào.</p>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              gap: "16px",
+              overflowX: "scroll",
+              padding: "0 10px",
+              width: "100%",
+            }}
+          >
+            {certificates.map((certificate) => (
+              <div
+                key={certificate.verify_code}
+                style={{
+                  backgroundColor: "#fff",
+                  borderRadius: "12px",
+                  padding: "18px 32px",
+                  width: "250px", // Điều chỉnh chiều rộng để khung chữ nhật
+                  marginBottom: 18,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  border: "2px solid #E84040",
+                  color: "#333",
+                }}
+              >
+                <div>
+                  <strong>{certificate.course_code}</strong>
+                  <br></br>
+                  <strong>{certificate.course_title}</strong>
+                </div>
+                <div>Ngày cấp: {certificate.issued_on}</div>
+                <div>Ngày hết hạn: {certificate.expires_on || "Không có"}</div>
+                <div>Mã chứng chỉ: {certificate.verify_code}</div>
+                <div> 
+                  Trạng thái: <span
+                    style={{
+                      color: certificate.status === "issued" ? "green" : "red",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {certificate.status === "issued" ? "Được cấp" : "Đã thu hồi"}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,9 +3,10 @@ import { api } from "../../api/client";
 import bg7 from "../../assets/images/elementDatabaseWeb7.png";
 import logoutIcon from "../../assets/images/elementDatabaseWeb4.png";
 import { useAuth } from "../../context/AuthProvider";
+import { logoutApi } from "../../api/auth.api"; 
 
 const RoadmapPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const studentId = user?.id ?? 1;
 
   const [roadmaps, setRoadmaps] = useState<any[]>([]);
@@ -24,6 +25,16 @@ const RoadmapPage: React.FC = () => {
     fetchRoadmaps();
   }, []);
 
+    const handleLogoutClick = async () => {
+      try {
+        await logoutApi();                        // gọi POST /auth/logout (có kèm Bearer token)
+      } catch (err) {
+        console.error("Logout API error:", err);
+        // vẫn tiếp tục logout phía client
+      } finally {
+        logout();                                 // xoá token + user + redirect /login
+      }
+    };
   return (
     <div
       style={{
@@ -92,6 +103,7 @@ const RoadmapPage: React.FC = () => {
             </a>
 
             <div
+              onClick={handleLogoutClick}
               style={{
                 marginTop: "20px",
                 display: "flex",

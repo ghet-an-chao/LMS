@@ -4,28 +4,63 @@ import logoutIcon from "../../assets/images/elementDatabaseWeb4.png";
 import bg7 from "../../assets/images/elementDatabaseWeb7.png";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
+import { logoutApi } from "../../api/auth.api"; 
+
+// Định nghĩa kiểu dữ liệu cho bảng điểm
+type Grade = {
+  course_code: string;
+  title: string;
+  final_weighted_score: number;
+  status: string;
+};
 
 const GradesPage: React.FC = () => {
   const { studentId: paramId } = useParams<{ studentId: string }>();
-  const { user } = useAuth();
-  const studentId = paramId ?? String(user?.id ?? 1);
+  const { user, logout } = useAuth();
+  const studentId = paramId ?? String(user?.id ?? 1); // Lấy id sinh viên từ param hoặc từ context
 
-  const [grades, setGrades] = useState<any[]>([]);
+  const [grades, setGrades] = useState<Grade[]>([]);  // Danh sách điểm
+  const [averageScore, setAverageScore] = useState<number | null>(null);  // Điểm trung bình
   const [openMenu, setOpenMenu] = useState(false);
 
+  // Hàm gọi API để lấy điểm trung bình
+  useEffect(() => {
+    const fetchAverageScore = async () => {
+      try {
+        const res = await api.get(`/students/${studentId}/average-score`);
+        setAverageScore(res.data.average_score);  // Lưu điểm trung bình vào state
+      } catch (error) {
+        console.error("Failed to fetch average score", error);
+      }
+    };
+
+    fetchAverageScore();  // Gọi API khi component mount
+  }, [studentId]);
+
+  // Hàm gọi API để lấy bảng điểm
   useEffect(() => {
     const fetchGrades = async () => {
       try {
         const res = await api.get(`/students/${studentId}/grades`);
-        setGrades(res.data.grades);
+        setGrades(res.data.grades);  // Lưu điểm vào state
       } catch (error) {
         console.error("Failed to fetch grades", error);
       }
     };
 
-    fetchGrades();
+    fetchGrades();  // Gọi API khi component mount
   }, [studentId]);
 
+    const handleLogoutClick = async () => {
+      try {
+        await logoutApi();                        // gọi POST /auth/logout (có kèm Bearer token)
+      } catch (err) {
+        console.error("Logout API error:", err);
+        // vẫn tiếp tục logout phía client
+      } finally {
+        logout();                                 // xoá token + user + redirect /login
+      }
+    };
   return (
     <div
       style={{
@@ -94,6 +129,7 @@ const GradesPage: React.FC = () => {
             </a>
 
             <div
+              onClick={handleLogoutClick}
               style={{
                 marginTop: "20px",
                 display: "flex",
@@ -138,7 +174,7 @@ const GradesPage: React.FC = () => {
           <span style={{ width: "40px", height: "3px", backgroundColor: "#fff" }} />
           <span style={{ width: "40px", height: "3px", backgroundColor: "#fff" }} />
         </div>
-        <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#fff" }}>Bảng Điểm</h1>
+        <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#fff" }}>BẢNG ĐIỂM</h1>
       </div>
 
       {/* CONTENT */}
