@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-
+const { handleGetProfile } = require("./src/getprofile");
+const { handleUpdateProfile } = require("./src/updateprofile");
+const { handleLogout } = require("./src/logout");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -10,6 +12,12 @@ const PORT = 3000;
 const STUDENT_ID = 1;
 
 // ----- Mock Data -----
+function fakeAuth(req, res, next) {
+  // mặc định cho user id = 1
+  req.user = { id: 1 };
+  next();
+}
+
 // Users
 const users = [
   { user_id: 1, username: "huytran", first_name: "Huy", last_name: "Tran", email: "huy.tran@example.com", role: "student", status: "active" },
@@ -78,13 +86,65 @@ app.post("/auth/login", (req, res) => {
 });
 
 // 2. Get user profile
+// app.get("/users/me", (req, res) => {
+//   const user = users.find((u) => u.user_id === STUDENT_ID);
+//   if (!user) {
+//     return res.status(404).json({ message: "User not found" });
+//   }
+//   res.json(user);
+// });
 app.get("/users/me", (req, res) => {
   const user = users.find((u) => u.user_id === STUDENT_ID);
+
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
-  res.json(user);
+
+  // Trả về đúng format mà Profile.tsx đang dùng: id, first_name, last_name, email, status, roles
+  res.json({
+    id: user.user_id,
+    username: user.username,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    status: user.status,
+    roles: [user.role], // ví dụ: ["student"]
+  });
 });
+
+// Cập nhật profile
+app.put("/users/:userId", (req, res) => {
+  const userId = Number(req.params.userId);
+  const { first_name, last_name, email } = req.body;
+
+  const userIndex = users.findIndex((u) => u.user_id === userId);
+  if (userIndex === -1) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Cập nhật mock trong mảng
+  if (first_name) users[userIndex].first_name = first_name;
+  if (last_name) users[userIndex].last_name = last_name;
+  if (email) users[userIndex].email = email;
+
+  const u = users[userIndex];
+
+  return res.json({
+    message: "Profile updated successfully (mock)",
+    user: {
+      id: u.user_id,
+      username: u.username,
+      first_name: u.first_name,
+      last_name: u.last_name,
+      email: u.email,
+      status: u.status,
+      roles: [u.role],
+    },
+  });
+});
+// Logout
+app.post("/logout", fakeAuth, handleLogout);
+
 
 // 3. Courses
 app.get("/courses", (req, res) => {

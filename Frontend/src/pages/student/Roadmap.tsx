@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { api } from "../../api/client"; // API client
-import bg7 from "../../assets/images/elementDatabaseWeb7.png"; // Adjust background
+import { api } from "../../api/client";
+import bg7 from "../../assets/images/elementDatabaseWeb7.png";
 import logoutIcon from "../../assets/images/elementDatabaseWeb4.png";
-import { useParams } from "react-router-dom";
-
+import { useAuth } from "../../context/AuthProvider";
 
 const RoadmapPage: React.FC = () => {
+  const { user } = useAuth();
+  const studentId = user?.id ?? 1;
+
   const [roadmaps, setRoadmaps] = useState<any[]>([]);
   const [openMenu, setOpenMenu] = useState(false);
-  const { studentId } = useParams<{ studentId: string }>();
 
   useEffect(() => {
     const fetchRoadmaps = async () => {
       try {
-        const res = await api.get("/student/roadmaps"); // Correct API endpoint
+        const res = await api.get("/student/roadmaps");
         setRoadmaps(res.data.roadmaps);
       } catch (error) {
         console.error("Failed to fetch roadmaps", error);
@@ -35,20 +36,19 @@ const RoadmapPage: React.FC = () => {
         overflow: "hidden",
       }}
     >
-      {/* ======================= MENU OVERLAY ======================= */}
+      {/* MENU OVERLAY */}
       {openMenu && (
         <div
-          onClick={() => setOpenMenu(false)} // Bấm ra ngoài → đóng menu
+          onClick={() => setOpenMenu(false)}
           style={{
             position: "fixed",
             inset: 0,
-            backgroundColor: "rgba(0,0,0,0.25)", // lớp mờ
+            backgroundColor: "rgba(0,0,0,0.25)",
             zIndex: 998,
           }}
         >
-          {/* MENU BOX */}
           <div
-            onClick={(e) => e.stopPropagation()} // bấm bên trong KHÔNG đóng
+            onClick={(e) => e.stopPropagation()}
             style={{
               height: "100vh",
               width: "420px",
@@ -63,14 +63,34 @@ const RoadmapPage: React.FC = () => {
               fontWeight: 500,
             }}
           >
-            <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>TRANG CHỦ</a>
-            <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>KHOÁ HỌC</a>
-            <a href="/student/roadmaps" style={{ textDecoration: "none", color: "white" }}>LỘ TRÌNH HỌC</a>
-            <a href={`/students/${studentId}/grades`} style={{ textDecoration: "none", color: "white" }}>BẢNG ĐIỂM</a>
-            <a href={`/students/${studentId}/certificates`} style={{ textDecoration: "none", color: "white" }}>CHỨNG CHỈ</a>
-            <a href={`/students/${studentId}/profile`} style={{ textDecoration: "none", color: "white" }}>THÔNG TIN CÁ NHÂN</a>
+            <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>
+              TRANG CHỦ
+            </a>
+            <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>
+              KHOÁ HỌC
+            </a>
+            <a href="/student/roadmaps" style={{ textDecoration: "none", color: "white" }}>
+              LỘ TRÌNH HỌC
+            </a>
+            <a
+              href={`/students/${studentId}/grades`}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              BẢNG ĐIỂM
+            </a>
+            <a
+              href={`/students/${studentId}/certificates`}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              CHỨNG CHỈ
+            </a>
+            <a
+              href={`/students/${studentId}/profile`}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              THÔNG TIN CÁ NHÂN
+            </a>
 
-            {/* LOGOUT */}
             <div
               style={{
                 marginTop: "20px",
@@ -91,14 +111,14 @@ const RoadmapPage: React.FC = () => {
         </div>
       )}
 
-      {/* ======================= HEADER ======================= */}
+      {/* HEADER */}
       <div
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
           padding: "32px 16px 40px 16px",
           display: "flex",
-          justifyContent: "flex-start",  // Sửa lại canh trái
+          justifyContent: "flex-start",
           alignItems: "center",
         }}
       >
@@ -109,7 +129,7 @@ const RoadmapPage: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             gap: "8px",
-            marginRight: "20px",  // Cách xa hơn một chút
+            marginRight: "20px",
           }}
         >
           <span style={{ width: "40px", height: "3px", backgroundColor: "#fff" }} />
@@ -119,14 +139,14 @@ const RoadmapPage: React.FC = () => {
         <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#fff" }}>LỘ TRÌNH HỌC</h1>
       </div>
 
-      {/* ======================= ROADMAP CONTENT ======================= */}
+      {/* CONTENT */}
       <div
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
           color: "#fff",
           overflowY: "auto",
-          maxHeight: "calc(100vh - 120px)",  // Fix chiều cao và cuộn
+          maxHeight: "calc(100vh - 120px)",
           paddingRight: "6px",
         }}
       >
@@ -146,8 +166,7 @@ const RoadmapPage: React.FC = () => {
             <p>Mô tả: {roadmap.description}</p>
             <p>Tips: {roadmap.tips}</p>
 
-            {/* Course Details */}
-            <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
+            <div style={{ marginTop: "20px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
               {roadmap.courses.map((course: any, idx: number) => (
                 <div
                   key={idx}
@@ -159,7 +178,9 @@ const RoadmapPage: React.FC = () => {
                     backgroundColor: "#E84040",
                   }}
                 >
-                  <h4>{course.code} - {course.title}</h4>
+                  <h4>
+                    {course.code} - {course.title}
+                  </h4>
                   <p>{course.description}</p>
                 </div>
               ))}

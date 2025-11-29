@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 interface AuthContextType {
   user: any;
@@ -13,17 +13,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
 
+  // ✅ Lấy lại token & user từ localStorage khi reload trang
+  useEffect(() => {
+    const storedToken = localStorage.getItem("accessToken");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedToken) setToken(storedToken);
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
   const login = (userData: any, accessToken: string) => {
     setUser(userData);
     setToken(accessToken);
-    localStorage.setItem("token", accessToken);
+    // ✅ dùng chung key accessToken
+    localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
-    localStorage.clear();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     window.location.href = "/login";
   };
 

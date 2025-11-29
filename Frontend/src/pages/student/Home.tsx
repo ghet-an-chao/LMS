@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthProvider";
 const Home: React.FC = () => {
   const { user } = useAuth();
   const [openMenu, setOpenMenu] = useState(false);
-  const studentId = user?.id;
+  const studentId = user?.user_id ?? 1;
 
   const popularCourses = [
     {

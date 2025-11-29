@@ -1,32 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { api } from "../../api/client"; // API client
+import { api } from "../../api/client";
 import logoutIcon from "../../assets/images/elementDatabaseWeb4.png";
-import bg7 from "../../assets/images/elementDatabaseWeb7.png"; // Background image
+import bg7 from "../../assets/images/elementDatabaseWeb7.png";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 
 const GradesPage: React.FC = () => {
-    const { studentId } = useParams<{ studentId: string }>();
-    const [grades, setGrades] = useState<any[]>([]);
-    const [openMenu, setOpenMenu] = useState(false);  // Khai báo openMenu để điều khiển menu
+  const { studentId: paramId } = useParams<{ studentId: string }>();
+  const { user } = useAuth();
+  const studentId = paramId ?? String(user?.id ?? 1);
 
-    useEffect(() => {
-      const fetchGrades = async () => {
-        try {
-          const res = await api.get(`/students/${studentId}/grades`);  // API call to fetch grades using studentId
-          setGrades(res.data.grades);
-        } catch (error) {
-          console.error("Failed to fetch grades", error);
-        }
-      };
-  
-      fetchGrades();
-    }, [studentId]); 
+  const [grades, setGrades] = useState<any[]>([]);
+  const [openMenu, setOpenMenu] = useState(false);
+
+  useEffect(() => {
+    const fetchGrades = async () => {
+      try {
+        const res = await api.get(`/students/${studentId}/grades`);
+        setGrades(res.data.grades);
+      } catch (error) {
+        console.error("Failed to fetch grades", error);
+      }
+    };
+
+    fetchGrades();
+  }, [studentId]);
 
   return (
     <div
       style={{
         backgroundImage: `url(${bg7})`,
-        backgroundSize: "100% auto",  // Adjust background size
+        backgroundSize: "100% auto",
         backgroundPosition: "center",
         padding: "20px",
         minHeight: "100vh",
@@ -34,20 +38,19 @@ const GradesPage: React.FC = () => {
         position: "relative",
       }}
     >
-      {/* ======================= MENU OVERLAY ======================= */}
+      {/* MENU OVERLAY */}
       {openMenu && (
         <div
-          onClick={() => setOpenMenu(false)} // Bấm ra ngoài → đóng menu
+          onClick={() => setOpenMenu(false)}
           style={{
             position: "fixed",
             inset: 0,
-            backgroundColor: "rgba(0,0,0,0.25)", // lớp mờ
+            backgroundColor: "rgba(0,0,0,0.25)",
             zIndex: 998,
           }}
         >
-          {/* MENU BOX */}
           <div
-            onClick={(e) => e.stopPropagation()} // bấm bên trong KHÔNG đóng
+            onClick={(e) => e.stopPropagation()}
             style={{
               height: "100vh",
               width: "420px",
@@ -62,14 +65,34 @@ const GradesPage: React.FC = () => {
               fontWeight: 500,
             }}
           >
-            <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>TRANG CHỦ</a>
-            <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>KHOÁ HỌC</a>
-            <a href="/student/roadmaps" style={{ textDecoration: "none", color: "white" }}>LỘ TRÌNH HỌC</a>
-            <a href={`/students/${studentId}/grades`} style={{ textDecoration: "none", color: "white" }}>BẢNG ĐIỂM</a>
-            <a href={`/students/${studentId}/certificates`} style={{ textDecoration: "none", color: "white" }}>CHỨNG CHỈ</a>
-            <a href={`/students/${studentId}/profile`} style={{ textDecoration: "none", color: "white" }}>THÔNG TIN CÁ NHÂN</a>
+            <a href="/student/home" style={{ textDecoration: "none", color: "white" }}>
+              TRANG CHỦ
+            </a>
+            <a href="/student/courses" style={{ textDecoration: "none", color: "white" }}>
+              KHOÁ HỌC
+            </a>
+            <a href="/student/roadmaps" style={{ textDecoration: "none", color: "white" }}>
+              LỘ TRÌNH HỌC
+            </a>
+            <a
+              href={`/students/${studentId}/grades`}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              BẢNG ĐIỂM
+            </a>
+            <a
+              href={`/students/${studentId}/certificates`}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              CHỨNG CHỈ
+            </a>
+            <a
+              href={`/students/${studentId}/profile`}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              THÔNG TIN CÁ NHÂN
+            </a>
 
-            {/* LOGOUT */}
             <div
               style={{
                 marginTop: "20px",
@@ -90,7 +113,7 @@ const GradesPage: React.FC = () => {
         </div>
       )}
 
-      {/* ======================= HEADER ======================= */}
+      {/* HEADER */}
       <div
         style={{
           maxWidth: "1200px",
@@ -118,22 +141,21 @@ const GradesPage: React.FC = () => {
         <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#fff" }}>Bảng Điểm</h1>
       </div>
 
-      {/* ======================= GRADES CONTENT ======================= */}
+      {/* CONTENT */}
       <div
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
           color: "#fff",
           overflowY: "auto",
-          maxHeight: "calc(100vh - 120px)", 
+          maxHeight: "calc(100vh - 120px)",
           paddingRight: "6px",
         }}
       >
-        {/* Header Row */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 3fr 2fr 1fr 1fr 1.5fr",
+            gridTemplateColumns: "1fr 3fr 2fr 1fr",
             color: "#fff",
             fontWeight: 600,
             marginBottom: 16,
@@ -156,7 +178,7 @@ const GradesPage: React.FC = () => {
               padding: "18px 32px",
               marginBottom: 18,
               display: "grid",
-              gridTemplateColumns: "1fr 3fr 2fr 1fr 1fr 1.5fr",
+              gridTemplateColumns: "1fr 3fr 2fr 1fr",
               alignItems: "center",
               color: "#E84040",
             }}
