@@ -3,12 +3,23 @@ import bg1 from "../../assets/images/elementDatabaseWeb1.png";
 import logo from "../../assets/images/elementDatabaseWeb2.png";
 import logoutIcon from "../../assets/images/elementDatabaseWeb4.png";
 import { useAuth } from "../../context/AuthProvider";
+import { logoutApi } from "../../api/auth.api"; 
 
 const Home: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [openMenu, setOpenMenu] = useState(false);
-  const studentId = user?.user_id ?? 1;
-
+  const studentId = user?.user_id ?? user?.id ?? 1;
+  // hàm logout
+  const handleLogoutClick = async () => {
+    try {
+      await logoutApi();                        // gọi POST /auth/logout (có kèm Bearer token)
+    } catch (err) {
+      console.error("Logout API error:", err);
+      // vẫn tiếp tục logout phía client
+    } finally {
+      logout();                                 // xoá token + user + redirect /login
+    }
+  };
   const popularCourses = [
     {
       code: "CS101",
@@ -86,6 +97,7 @@ const Home: React.FC = () => {
 
             {/* LOGOUT */}
             <div
+              onClick={handleLogoutClick}
               style={{
                 marginTop: "20px",
                 display: "flex",

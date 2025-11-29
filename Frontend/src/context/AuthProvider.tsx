@@ -13,19 +13,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
 
-  // ✅ Lấy lại token & user từ localStorage khi reload trang
+  // (optional nhưng nên có) đọc lại user + token từ localStorage khi reload trang
   useEffect(() => {
-    const storedToken = localStorage.getItem("accessToken");
-    const storedUser = localStorage.getItem("user");
-
-    if (storedToken) setToken(storedToken);
-    if (storedUser) setUser(JSON.parse(storedUser));
+    const savedToken = localStorage.getItem("accessToken");
+    const savedUser = localStorage.getItem("user");
+    if (savedToken) setToken(savedToken);
+    if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
   const login = (userData: any, accessToken: string) => {
     setUser(userData);
     setToken(accessToken);
-    // ✅ dùng chung key accessToken
+    // LƯU ĐÚNG KEY: "accessToken"
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("user", JSON.stringify(userData));
   };
