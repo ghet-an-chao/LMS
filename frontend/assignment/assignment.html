@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Danh sách Assignment</title>
+  <link rel="stylesheet" href="assignment.css" />
+  <link rel="stylesheet" href="../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="assignment-container">
+      <div class="assignment-header">
+        <h1>ASSIGNMENT</h1>
+        <div class="nav-buttons">
+          <button onclick="window.location.href='../lecture/lecture.html'">Lecture</button>
+          <button onclick="window.location.href='assignment.html'">Assignment</button>
+          <button onclick="window.location.href='../quiz/quiz.html'">Quiz</button>
+          <button id="create-assignment-btn" onclick="window.location.href='createassignment/createassignment.html'">Tạo Assignment</button>
+          <button onclick="window.location.href='../section/section.html'">Quay lại</button>
+        </div>
+      </div>
+      <div id="assignment-list" class="assignment-list">
+        <!-- Danh sách assignment sẽ hiển thị tại đây -->
+      </div>
+    </div>
+  </div>
+
+  <script src="assignment.js"></script>
+
+  <burger-sidebar></burger-sidebar>
+  <script src="../components/burger/burger.js"></script>
+  <script src="../components/burger/action.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tạo lộ trình học mới</title>
+  <link rel="stylesheet" href="createroadmap.css" />
+   <link rel="stylesheet" href="../../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="form-container">
+      <h1>Tạo khóa học mới</h1>
+      <form id="create-section-form">
+        <input type="text" name="title" placeholder="Tiêu đề" required />
+        <input type="text" name="description" placeholder="Mô tả" required />
+        <input type="text" name="tips" placeholder="Tips" required />
+        <button type="submit">Tạo lớp lộ trình họp</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="createroadmap.js"></script>
+  <burger-sidebar></burger-sidebar>
+  <script src="../../components/burger/burger.js"></script>
+  <script src="../../components/burger/action.js"></script>
+</body>
+</html>

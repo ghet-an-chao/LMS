@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lộ trình học</title>
+  <link rel="stylesheet" href="roadmap.css" />
+  <link rel="stylesheet" href="../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="roadmap-container">
+      <div class="roadmap-header">
+        <h1>LỘ TRÌNH HỌC</h1>
+        <button id="create-roadmap-btn"  onclick="window.location.href='createroadmap/createroadmap.html'">Tạo lộ trình</button>
+      </div>
+      <div id="roadmap-list" class="roadmap-list">
+        <!-- Dữ liệu roadmap sẽ được render tại đây -->
+      </div>
+    </div>
+  </div>
+
+  <script src="roadmap.js"></script>
+
+  <burger-sidebar></burger-sidebar>
+  <script src="../components/burger/burger.js"></script>
+  <script src="../components/burger/action.js"></script>
+</body>
+</html>

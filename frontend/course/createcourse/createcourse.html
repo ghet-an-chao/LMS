@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tạo khóa học mới</title>
+  <link rel="stylesheet" href="createcourse.css" />
+   <link rel="stylesheet" href="../../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="form-container">
+      <h1>Tạo khóa học mới</h1>
+      <form id="create-course-form">
+        <input type="text" name="course_code" placeholder="Mã môn học" required />
+        <input type="text" name="title" placeholder="Tên môn học" required />
+        <input type="number" name="credits" placeholder="Số tín chỉ" min="0" required />
+        <select name="language" required>
+          <option value="">-- Ngôn ngữ --</option>
+          <option value="VI">Tiếng Việt</option>
+          <option value="EN">Tiếng Anh</option>
+        </select>
+        <textarea name="description" placeholder="Mô tả" rows="4" required></textarea>
+        <input type="number" name="pass_threshold_pct" placeholder="Điểm qua môn (%)" min="0" max="100" required />
+        <input type="number" name="price_vnd" placeholder="Giá tiền (VND)" min="0" required />
+        <button type="submit">Tạo khóa học</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="createcourse.js"></script>
+  <burger-sidebar></burger-sidebar>
+  <script src="../../components/burger/burger.js"></script>
+  <script src="../../components/burger/action.js"></script>
+</body>
+</html>

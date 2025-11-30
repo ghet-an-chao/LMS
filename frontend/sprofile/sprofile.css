@@ -1,0 +1,162 @@
+/* Nền và typography tổng thể */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+  background: linear-gradient(115deg, #ff4e50 0%, #f9d423 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #1a1a1a;
+}
+
+/* Khung chứa chính */
+.container {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  padding: 48px 56px;
+  border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  text-align: left;
+  width: 92%;
+  max-width: 720px;
+}
+
+/* Tiêu đề căn giữa */
+h1 {
+  margin: 0 0 24px;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #b7312d;
+  text-align: center; /* căn giữa */
+}
+
+/* Card thông tin */
+.profile-card {
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 24px 24px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+/* Lưới hai cột: nhãn và giá trị */
+.profile-card p {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: center;
+  gap: 16px;
+  margin: 12px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #e9e9e9;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #2b2b2b;
+}
+
+.profile-card p:last-child {
+  border-bottom: none;
+}
+
+/* Nhãn */
+.profile-card p strong {
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+/* Giá trị dạng span */
+.profile-card p span {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Input không viền cho Họ tên và Email */
+.profile-card input[type="text"],
+.profile-card input[type="email"] {
+  width: 100%;
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
+  background: transparent;
+  border: none;           /* xóa viền */
+  outline: none;          /* xóa outline */
+  padding: 6px 0;         /* gọn gàng */
+}
+
+/* Khu vực nút hành động ở dưới, căn giữa */
+.actions {
+  display: flex;
+  justify-content: center; /* căn giữa ngang */
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+/* Nút */
+button,
+.actions button {
+  padding: 14px 22px;
+  background: linear-gradient(135deg, #d43f3a 0%, #c9302c 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(212, 63, 58, 0.35);
+  transition: transform 0.08s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+button:hover,
+.actions button:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 10px 24px rgba(212, 63, 58, 0.45);
+}
+
+button:active,
+.actions button:active {
+  transform: translateY(1px);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .container {
+    padding: 28px 22px;
+    border-radius: 18px;
+    width: 92%;
+  }
+
+  h1 {
+    font-size: 26px;
+    margin-bottom: 18px;
+  }
+
+  .profile-card {
+    padding: 18px;
+  }
+
+  .profile-card p {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}
+
+/* Tăng độ sắc nét chữ */
+@supports (-webkit-font-smoothing: antialiased) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

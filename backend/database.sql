@@ -133,13 +133,13 @@ GO
 CREATE TABLE Section (
     section_id INT IDENTITY(1,1) PRIMARY KEY,
     course_id INT NOT NULL,
-    created_by INT NOT NULL,
+    tutor_id INT NOT NULL,
     section_code VARCHAR(20) NOT NULL,
     semester_no INT NOT NULL,
     created_at DATE DEFAULT GETDATE(),
     CONSTRAINT UQ_Section UNIQUE (course_id, section_code, semester_no),
     CONSTRAINT FK_Section_Course FOREIGN KEY (course_id) REFERENCES Course(course_id),
-    CONSTRAINT FK_Section_Teacher FOREIGN KEY (created_by) REFERENCES Teacher(teacher_id)
+    CONSTRAINT FK_Section_Teacher FOREIGN KEY (tutor_id) REFERENCES Teacher(teacher_id)
 );
 GO
 

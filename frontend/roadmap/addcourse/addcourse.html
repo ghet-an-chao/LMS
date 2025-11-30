@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thêm khóa học mới vào lộ trình</title>
+  <link rel="stylesheet" href="addcourse.css" />
+  <link rel="stylesheet" href="../../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="form-container">
+      <h1>Thêm khóa học vào lộ trình</h1>
+      <form id="create-section-form">
+        <input id="course_code" name="course_code" type="text" placeholder="Mã môn học" required />
+        <input id="ordinal" name="ordinal" type="number" placeholder="Thứ tự lộ trình" required />
+        <button type="submit">Thêm khóa học</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="addcourse.js"></script>
+  <burger-sidebar></burger-sidebar>
+  <script src="../../components/burger/burger.js"></script>
+  <script src="../../components/burger/action.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thông tin cá nhân</title>
+  <link rel="stylesheet" href="profile.css" />
+  <link rel="stylesheet" href="../components/burger/burger.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Thông tin cá nhân</h1>
+    <div class="profile-card">
+      <p><strong>Username:</strong> <span id="username">...</span></p>
+
+      <p><strong>Họ tên:</strong>
+        <input type="text" id="fullname" placeholder="Họ tên" />
+      </p>
+
+      <p><strong>Email:</strong>
+        <input type="email" id="email" placeholder="Email" />
+      </p>
+
+      <p><strong>Trạng thái:</strong> <span id="status">...</span></p>
+      <p><strong>Vai trò:</strong> <span id="roles">...</span></p>
+    </div>
+
+    <div class="actions">
+      <button id="saveBtn">Lưu thay đổi</button>
+    </div>
+  </div>
+
+  <burger-sidebar></burger-sidebar>
+  <script src="../components/burger/burger.js"></script>
+  <script src="../components/burger/action.js"></script>
+
+  <script src="profile.js"></script>
+</body>
+</html>

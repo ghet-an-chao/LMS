@@ -63,7 +63,7 @@ async function handleStartQuiz(req, res) {
 
     const attemptNo = attemptCountResult.recordset[0].count + 1;
 
-    // 3. Tạo attempt mới
+    // 3. Tạo attempt mới (dùng SCOPE_IDENTITY thay cho OUTPUT)
     const insertAttempt = await pool.request()
       .input('quiz_id', sql.Int, id)
       .input('student_id', sql.Int, student_id)
@@ -71,12 +71,23 @@ async function handleStartQuiz(req, res) {
       .input('status', sql.VarChar(15), 'in_progress')
       .query(`
         INSERT INTO Quiz_Attempt (quiz_id, student_id, attempt_no, status)
-        OUTPUT INSERTED.attempt_id, INSERTED.quiz_id, INSERTED.student_id,
-               INSERTED.start_at, INSERTED.status, INSERTED.attempt_no
-        VALUES (@quiz_id, @student_id, @attempt_no, @status)
+        VALUES (@quiz_id, @student_id, @attempt_no, @status);
+
+        SELECT SCOPE_IDENTITY() AS attempt_id;
       `);
 
-    const attempt = insertAttempt.recordset[0];
+    const attemptId = insertAttempt.recordset[0].attempt_id;
+
+    // Lấy lại thông tin attempt vừa tạo
+    const attemptResult = await pool.request()
+      .input('attempt_id', sql.Int, attemptId)
+      .query(`
+        SELECT attempt_id, quiz_id, student_id, start_at, status, attempt_no
+        FROM Quiz_Attempt
+        WHERE attempt_id = @attempt_id
+      `);
+
+    const attempt = attemptResult.recordset[0];
 
     // 4. Lấy danh sách câu hỏi + option
     const questionsResult = await pool.request()

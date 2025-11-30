@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đăng ký học phần</title>
+  <link rel="stylesheet" href="enroll.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="enroll-container">
+      <div class="enroll-header">
+        <h1>Thông tin đăng ký học phần</h1>
+      </div>
+
+      <div id="course-info" class="course-info">
+        <!-- Thông tin khóa học sẽ hiển thị tại đây -->
+      </div>
+
+      <div id="lecture-list" class="lecture-list">
+        <!-- Danh sách bài giảng sẽ hiển thị tại đây -->
+      </div>
+
+      <div class="payment-section">
+        <p><strong>Cổng giao dịch:</strong> VNPAY_123456789</p>
+        <p><strong>Tổng tiền:</strong> <span id="price-vnd">...</span> VND</p>
+        <div class="payment-buttons">
+          <button class="cancel-btn" onclick="window.location.href='../ssection/ssection.html'">Hủy bỏ</button>
+          <button class="pay-btn">Thanh toán</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="enroll.js"></script>
+  <script src="pay.js"></script>
+</body>
+</html>

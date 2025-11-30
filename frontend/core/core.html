@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bảng Điểm</title>
+  <link rel="stylesheet" href="core.css">
+</head>
+<body>
+  <div class="gradebook-container">
+    <h2>📊 Bảng Điểm</h2>
+
+    <!-- Nút xem bảng điểm -->
+    <div class="actions">
+      <button id="view-grades-btn">Xem Bảng Điểm</button>
+    </div>
+
+    <!-- Danh sách bài tập và quiz -->
+    <div class="grades-section">
+      <h3>Danh Sách Bài Tập & Quiz</h3>
+      <table id="grades-table">
+        <thead>
+          <tr>
+            <th>Tên</th>
+            <th>Loại</th>
+            <th>Điểm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- dữ liệu sẽ được JS thêm vào -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Điểm tổng kết -->
+    <div class="summary">
+      <h3>Điểm Tổng Kết</h3>
+      <p id="final-score">Chưa có dữ liệu</p>
+    </div>
+  </div>
+</body>
+</html>

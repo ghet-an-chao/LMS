@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký LMS</title>
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+  <img src="p1.png" alt="Biểu tượng sách" class="book-icon">
+
+  <div class="background">
+    <div class="register-box">
+      <h2>TRANG ĐĂNG KÝ</h2>
+      <form>
+        <label for="username">USERNAME</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="first_name">FIRST NAME</label>
+        <input type="text" id="first_name" name="first_name" required>
+
+        <label for="last_name">LAST NAME</label>
+        <input type="text" id="last_name" name="last_name" required>
+
+        <label for="email">EMAIL</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">PASSWORD</label>
+        <input type="password" id="password" name="password" required>
+
+        <div class="role-buttons">
+          <button type="button" class="role student">SINH VIÊN</button>
+          <button type="button" class="role teacher">GIẢNG VIÊN</button>
+        </div>
+
+        <button type="submit" class="submit-btn">ĐĂNG KÝ</button>
+
+        <div class="login-link">
+          Đã có tài khoản? <a href="../index/index.html">Đăng nhập</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="register.js"></script>
+</body>
+</html>

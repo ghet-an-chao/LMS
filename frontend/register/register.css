@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ff4e50; /* màu nền giống màu chính của ảnh */
+  background-image: url('p2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1300px 750px; /* ảnh nền nhỏ lại */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.book-icon {
+  position: fixed;
+  top: 40px;
+  right: 220px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  z-index: 999;
+}
+
+.background {
+  width: 100%;
+  max-width: 360px;
+  padding: 10px;
+}
+
+.register-box {
+  background-color: #fff;
+  padding: 25px 20px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  text-align: center;
+  animation: floatUp 0.6s ease-out;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.register-box h2 {
+  font-size: 20px;
+  color: #d43f3a;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  text-align: left;
+  font-weight: bold;
+  color: #555;
+  font-size: 13px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.role-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.role {
+  flex: 1;
+  padding: 8px;
+  margin: 0 4px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  transition: background-color 0.3s ease;
+}
+
+.role:hover {
+  background-color: #f9d423;
+}
+
+.submit-btn {
+  margin-top: 16px;
+  padding: 10px;
+  background-color: #d43f3a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #c9302c;
+}
+
+.login-link {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.login-link a {
+  color: #007bff;
+  text-decoration: none;
+}

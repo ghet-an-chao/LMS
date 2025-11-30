@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ff4e50;
+  background-image: url('p2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.book-icon {
+  position: fixed;
+  top: 15px;
+  left: 80px;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  z-index: 10;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
+}
+
+.background {
+  display: flex;
+  justify-content: flex-start; /* đẩy nội dung sang trái */
+  align-items: center;
+  height: calc(100vh - 100px); /* chừa chỗ cho footer */
+  padding-left: 60px;
+}
+
+.welcome-box {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  text-align: left;
+  max-width: 650px;
+}
+
+.welcome-box h1 {
+  font-size: 24px;
+  color: #d43f3a;
+  margin-bottom: 10px;
+}
+
+.welcome-box p {
+  font-size: 16px;
+  color: #d43f3a;
+}
+
+/* Footer */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(255,255,255,0.85);
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 13px;
+  color: #333;
+  line-height: 1.6;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+}
+
+
+

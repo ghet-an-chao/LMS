@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Danh sách Quiz</title>
+  <link rel="stylesheet" href="quiz.css" />
+  <link rel="stylesheet" href="../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <h1>QUIZ</h1>
+        <div class="nav-buttons">
+          <button onclick="window.location.href='../lecture/lecture.html'">Lecture</button>
+          <button onclick="window.location.href='../assignment/assignment.html'">Assignment</button>
+          <button onclick="window.location.href='quiz.html'">Quiz</button>
+          <button id="create-quiz-btn" onclick="window.location.href='createquiz/createquiz.html'">Tạo Quiz</button>
+          <button onclick="window.location.href='../section/section.html'">Quay lại</button>
+        </div>
+      </div>
+      <div id="quiz-list" class="quiz-list">
+        <!-- Danh sách quiz sẽ hiển thị tại đây -->
+      </div>
+    </div>
+  </div>
+
+  <script src="quiz.js"></script>
+
+  <burger-sidebar></burger-sidebar>
+  <script src="../components/burger/burger.js"></script>
+  <script src="../components/burger/action.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Xem câu hỏi Quiz</title>
+  <link rel="stylesheet" href="viewquestion.css" />
+  <link rel="stylesheet" href="../../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <h1>Danh sách câu hỏi Quiz</h1>
+        <div class="nav-buttons">
+          <button onclick="window.location.href='../quiz.html'">Quay lại Quiz</button>
+        </div>
+      </div>
+      <div id="question-list" class="question-list">
+        <!-- Danh sách câu hỏi sẽ hiển thị tại đây -->
+      </div>
+    </div>
+  </div>
+
+  <script src="viewquestion.js"></script>
+
+  <burger-sidebar></burger-sidebar>
+  <script src="../../components/burger/burger.js"></script>
+  <script src="../../components/burger/action.js"></script>
+</body>
+</html>

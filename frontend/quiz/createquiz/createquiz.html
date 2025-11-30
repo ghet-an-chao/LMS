@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tạo quiz mới</title>
+  <link rel="stylesheet" href="createquiz.css" />
+   <link rel="stylesheet" href="../../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="form-container">
+      <h1>Tạo quiz mới</h1>
+      <form id="create-quiz-form">
+        <input type="text" name="title" placeholder="Title" required />
+        <input type="number" name="time_limit_min" placeholder="Giới hạn thời gian" required />
+        <input type="number" name="attempts_allowed" placeholder="Số lần làm cho phép" required />      
+        <button type="submit">Tạo quiz</button>
+      </form>
+      <div class="back-btn-wrapper">
+          <button id="back-btn" class="back-btn">Quay lại</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="createquiz.js"></script>
+  <script>
+    document.getElementById('back-btn').addEventListener('click', () => {
+      window.location.href = '../quiz.html';
+    });
+  </script>
+  <burger-sidebar></burger-sidebar>
+  <script src="../../components/burger/burger.js"></script>
+  <script src="../../components/burger/action.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Danh sách Quiz</title>
+  <link rel="stylesheet" href="squiz.css" />
+  <link rel="stylesheet" href="../components/sburger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <h1>QUIZ</h1>
+        <div class="nav-buttons">
+          <button onclick="window.location.href='../slecture/slecture.html'">Lecture</button>
+          <button onclick="window.location.href='../sassignment/sassignment.html'">Assignment</button>
+          <button onclick="window.location.href='squiz.html'">Quiz</button>
+          <button onclick="window.location.href='../ssection/ssection.html'">Quay lại</button>
+        </div>
+      </div>
+      <div id="quiz-list" class="quiz-list">
+        <!-- Danh sách quiz sẽ hiển thị tại đây -->
+      </div>
+    </div>
+  </div>
+
+  <script src="squiz.js"></script>
+
+  <burger-sidebar></burger-sidebar>
+  <script src="../components/sburger/burger.js"></script>
+  <script src="../components/sburger/action.js"></script>
+</body>
+</html>

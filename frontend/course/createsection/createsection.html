@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tạo lớp học phần mới</title>
+  <link rel="stylesheet" href="createsection.css" />
+   <link rel="stylesheet" href="../../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="form-container">
+      <h1>Tạo khóa học mới</h1>
+      <form id="create-section-form">
+        <input type="text" name="course_code" placeholder="Mã môn học" required />
+        <input type="text" name="section_code" placeholder="Mã lớp học phần" required />
+        <select name="language" required>
+          <option value="">-- Học kì --</option>
+          <option value= 1>1</option>
+          <option value= 2>2</option>
+          <option value= 3>3(học kì hè)</option>
+        </select>
+        <button type="submit">Tạo lớp học phần</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="createsection.js"></script>
+  <burger-sidebar></burger-sidebar>
+  <script src="../../components/burger/burger.js"></script>
+  <script src="../../components/burger/action.js"></script>
+</body>
+</html>

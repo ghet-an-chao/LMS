@@ -111,7 +111,7 @@ app.get('/certificates/:id', handleGetCertificate);
 
 // Transaction
 app.get('/bill/:courseId/:sectionId', handleGetBill); // ok //
-app.post('/pay', handlePayment); // ok //
+app.post('/pay', handlePayment); // ok
 app.post('/transactions', handleCreateTransaction);
 app.patch('/transactions/:id', handleUpdateTransaction);
 app.get('/transactions/my', handleGetMyTransactions);

@@ -1,0 +1,76 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff5f6d, #ffc371, #8e44ad);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.overlay {
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 0;
+  box-sizing: border-box;
+}
+
+.certificate-container {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  max-width: 900px;
+  width: 90%;
+}
+
+.certificate-container h1 {
+  font-size: 28px;
+  color: #d43f3a;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.certificate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.certificate-card {
+  border: 2px solid #d43f3a;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.certificate-card p {
+  margin: 6px 0;
+  font-size: 15px;
+  color: #333;
+}
+
+.status-issued {
+  color: green;
+  font-weight: bold;
+}
+
+.status-revoked {
+  color: red;
+  font-weight: bold;
+}
+
+#course-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+  margin: 4px 0;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Danh sách bài giảng</title>
+  <link rel="stylesheet" href="lecture.css" />
+  <link rel="stylesheet" href="../components/burger/burger.css" />
+</head>
+<body>
+  <div class="overlay">
+    <div class="lecture-container">
+      <div class="lecture-header">
+        <h1>BÀI GIẢNG</h1>
+        <div class="nav-buttons">
+          <button id="lecture-tab" onclick="window.location.href='lecture.html'">Lecture</button>
+          <button id="assignment-tab" onclick="window.location.href='../assignment/assignment.html'">Assignment</button>
+          <button id="quiz-tab" onclick="window.location.href='../quiz/quiz.html'">Quiz</button>
+          <button id="create-lecture-btn" onclick="window.location.href='createlecture/createlecture.html'">Tạo Lecture</button>
+          <button onclick="window.location.href='../section/section.html'">Quay lại</button>
+        </div>
+      </div>
+      <div id="lecture-list" class="lecture-list">
+        <!-- Danh sách bài giảng sẽ hiển thị tại đây -->
+      </div>
+    </div>
+  </div>
+
+  <script src="lecture.js"></script>
+
+  <burger-sidebar></burger-sidebar>
+  <script src="../components/burger/burger.js"></script>
+  <script src="../components/burger/action.js"></script>
+</body>
+</html>
